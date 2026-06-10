@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aroma CRM — Arihant Pumps Pvt. Ltd.</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07101e;--sf:#0d1a2d;--sf2:#112035;--sf3:#162840;--sf4:#1c3252;
+  --br:#1e3460;--br2:#243e72;--br3:#2d4f8a;
+  --p:#17469D;--pl:#7894E3;--pg:rgba(23,70,157,.2);
+  --tx:#e2eaf8;--tx2:#8fa4c8;--tx3:#4f6a96;
+  --gr:#22c55e;--rd:#ef4444;--yw:#f59e0b;--cy:#22d3ee;--pu:#a855f7;--or:#f97316;
+  --sw:240px;--hh:62px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;}
+
+/* LOGIN */
+#ls{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;background-image:radial-gradient(ellipse at 20% 50%,rgba(23,70,157,.15) 0%,transparent 55%),radial-gradient(ellipse at 80% 20%,rgba(120,148,227,.07) 0%,transparent 50%);}
+.lbox{background:var(--sf);border:1px solid var(--br2);border-radius:22px;padding:44px 40px;width:420px;max-width:95vw;text-align:center;box-shadow:0 30px 90px rgba(0,0,0,.6);}
+.lsub{font-size:12px;color:var(--tx2);margin:6px 0 26px;}
+.linp{width:100%;background:var(--sf2);border:1px solid var(--br);border-radius:10px;padding:12px 15px;font-size:13px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:10px;transition:border-color .2s;}
+.linp:focus{border-color:var(--pl);}
+.lbtn{width:100%;background:linear-gradient(135deg,var(--p),#1a56be);border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;color:#fff;cursor:pointer;margin-top:4px;}
+.lbtn:hover{opacity:.9;}
+.ldiv{height:1px;background:var(--br);margin:16px 0;}
+.lhint{font-size:11px;color:var(--tx3);margin-top:12px;}
+.lroles{display:flex;gap:7px;margin-top:10px;}
+.lrole{flex:1;padding:8px;border-radius:8px;font-size:11px;cursor:pointer;border:1px solid var(--br2);background:transparent;color:var(--tx2);transition:all .2s;font-family:'DM Sans',sans-serif;}
+.lrole:hover{border-color:var(--pl);color:var(--pl);}
+
+/* APP */
+#app{display:none;height:100vh;}
+
+/* HEADER */
+.hdr{position:fixed;top:0;left:0;right:0;height:var(--hh);z-index:100;background:var(--sf);border-bottom:1px solid var(--br2);display:flex;align-items:center;padding:0 18px;gap:14px;}
+.hlogo{display:flex;align-items:center;gap:10px;width:var(--sw);flex-shrink:0;}
+.hlogo svg{width:100px;height:auto;}
+.hldiv{width:1px;height:24px;background:var(--br2);}
+.hltag{font-size:10px;color:var(--tx3);line-height:1.5;}
+.hltag b{color:var(--pl);display:block;font-size:11px;}
+.hmid{flex:1;display:flex;align-items:center;gap:10px;}
+.hsearch{flex:1;max-width:340px;background:var(--sf2);border:1px solid var(--br);border-radius:9px;padding:8px 14px;font-size:12px;color:var(--tx);outline:none;font-family:'DM Sans',sans-serif;transition:border-color .2s;}
+.hsearch:focus{border-color:var(--pl);}
+.hsearch::placeholder{color:var(--tx3);}
+.hright{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.hicon{width:32px;height:32px;border-radius:7px;background:var(--sf2);border:1px solid var(--br);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;position:relative;}
+.hndot{position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--rd);border:2px solid var(--sf);}
+.hav{width:32px;height:32px;border-radius:7px;background:linear-gradient(135deg,var(--p),var(--pl));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;cursor:pointer;}
+.huname{font-size:12px;font-weight:600;}
+.hurole{font-size:10px;color:var(--tx2);}
+.hlive{display:flex;align-items:center;gap:5px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.18);padding:4px 9px;border-radius:20px;font-size:11px;color:var(--gr);}
+.hldot{width:6px;height:6px;border-radius:50%;background:var(--gr);animation:pp 1.5s infinite;}
+@keyframes pp{0%,100%{opacity:1}50%{opacity:.3}}
+.hclock{font-size:11px;color:var(--tx2);}
+
+/* BODY */
+.abody{display:flex;height:100vh;padding-top:var(--hh);}
+
+/* SIDEBAR */
+.sb{position:fixed;top:var(--hh);left:0;bottom:0;width:var(--sw);background:var(--sf);border-right:1px solid var(--br2);display:flex;flex-direction:column;padding:14px 10px;overflow-y:auto;z-index:90;}
+.snav{margin-bottom:18px;}
+.slbl{font-size:9.5px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.2px;padding:0 9px;margin-bottom:5px;}
+.si{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:12.5px;font-weight:500;color:var(--tx2);transition:all .15s;margin-bottom:2px;position:relative;}
+.si:hover{background:var(--sf2);color:var(--tx);}
+.si.on{background:rgba(23,70,157,.18);color:var(--pl);}
+.si.on::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;border-radius:2px;background:var(--pl);}
+.sic{font-size:15px;width:18px;text-align:center;flex-shrink:0;}
+.sbdg{margin-left:auto;color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:9px;}
+.sbot{margin-top:auto;padding-top:12px;border-top:1px solid var(--br);}
+
+/* MAIN */
+.mn{margin-left:var(--sw);flex:1;overflow-y:auto;padding:20px;}
+.pg{display:none;}.pg.on{display:block;}
+.pgh{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+.pgt{font-family:'Syne',sans-serif;font-weight:700;font-size:19px;}
+.pgs{font-size:12px;color:var(--tx2);margin-top:2px;}
+.pgha{display:flex;gap:8px;flex-wrap:wrap;}
+
+/* BUTTONS */
+.btn{padding:8px 13px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.bp{background:var(--p);color:#fff;}.bp:hover{background:#1a56be;}
+.bo{background:transparent;border:1px solid var(--br2);color:var(--tx);}.bo:hover{border-color:var(--pl);color:var(--pl);}
+.bsm{padding:5px 10px;font-size:11px;}
+.bgr{background:var(--gr);color:#fff;}
+.brd{background:var(--rd);color:#fff;}
+
+/* STATS */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+.sc{background:var(--sf);border:1px solid var(--br2);border-radius:12px;padding:16px;transition:transform .2s;}
+.sc:hover{transform:translateY(-2px);}
+.slb{font-size:11px;color:var(--tx2);margin-bottom:6px;}
+.sv{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:4px;}
+.sv.bl{color:var(--pl);}
+.sv.gn{color:var(--gr);}
+.sv.rd{color:var(--rd);}
+.sv.yw{color:var(--yw);}
+.sv.cy{color:var(--cy);}
+.sch{font-size:11px;}.sch.up{color:var(--gr)}.sch.dn{color:var(--rd)}
+
+/* CARDS */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.cg3{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px;}
+.cd{background:var(--sf);border:1px solid var(--br2);border-radius:12px;padding:16px;margin-bottom:12px;}
+.cd:last-child{margin-bottom:0;}
+.cdh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.cdt{font-size:13px;font-weight:600;}
+.cda{font-size:11px;color:var(--pl);cursor:pointer;}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{text-align:left;padding:8px 10px;font-size:10px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--br);}
+td{padding:9px 10px;border-bottom:1px solid var(--br);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.01);}
+.tb{font-weight:600;}
+
+/* BADGES */
+.bg{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:7px;font-size:10px;font-weight:600;}
+.bg.gn{background:rgba(34,197,94,.1);color:var(--gr);}
+.bg.yw{background:rgba(245,158,11,.1);color:var(--yw);}
+.bg.rd{background:rgba(239,68,68,.1);color:var(--rd);}
+.bg.bl{background:rgba(120,148,227,.12);color:var(--pl);}
+.bg.cy{background:rgba(34,211,238,.1);color:var(--cy);}
+.bg.or{background:rgba(249,115,22,.1);color:var(--or);}
+.bg.pu{background:rgba(168,85,247,.1);color:var(--pu);}
+.bg.gy{background:rgba(100,116,139,.1);color:#94a3b8;}
+
+/* PROGRESS */
+.pb{height:5px;background:var(--br);border-radius:3px;overflow:hidden;}
+.pf{height:100%;border-radius:3px;}
+.pf.bl{background:linear-gradient(90deg,var(--p),var(--pl));}
+.pf.gn{background:var(--gr);}
+.pf.yw{background:var(--yw);}
+.pf.rd{background:var(--rd);}
+
+/* MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;align-items:center;justify-content:center;padding:16px;}
+.mo.on{display:flex;}
+.mbox{background:var(--sf);border:1px solid var(--br2);border-radius:16px;padding:24px;width:540px;max-width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.6);}
+.mtit{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
+.mcl{cursor:pointer;color:var(--tx2);font-size:21px;line-height:1;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:9px;}
+.fl{font-size:11px;font-weight:600;color:var(--tx2);}
+.fi{background:var(--sf2);border:1px solid var(--br);border-radius:8px;padding:9px 11px;font-size:12px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;width:100%;}
+.fi:focus{border-color:var(--pl);}
+.fsec{font-size:10px;font-weight:700;color:var(--pl);text-transform:uppercase;letter-spacing:.6px;margin:12px 0 7px;padding-bottom:5px;border-bottom:1px solid var(--br);}
+.mac{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;padding-top:12px;border-top:1px solid var(--br);}
+
+/* PIPELINE KANBAN */
+.kboard{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px;min-height:480px;}
+.kboard::-webkit-scrollbar{height:4px;}
+.kboard::-webkit-scrollbar-thumb{background:var(--br2);border-radius:3px;}
+.kcol{min-width:220px;background:var(--sf2);border:1px solid var(--br);border-radius:12px;padding:12px;flex-shrink:0;display:flex;flex-direction:column;}
+.kchd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.kct{font-size:12px;font-weight:600;}
+.kcn{font-size:11px;font-weight:700;background:var(--sf3);padding:2px 8px;border-radius:8px;color:var(--tx2);}
+.kstage{width:100%;height:3px;border-radius:2px;margin-bottom:10px;}
+.kcard{background:var(--sf);border:1px solid var(--br2);border-radius:9px;padding:12px;margin-bottom:8px;cursor:pointer;transition:all .2s;}
+.kcard:hover{border-color:var(--pl);transform:translateY(-1px);}
+.kcname{font-size:12px;font-weight:600;margin-bottom:4px;}
+.kcco{font-size:11px;color:var(--tx2);margin-bottom:6px;}
+.kcval{font-size:13px;font-weight:700;color:var(--pl);margin-bottom:6px;}
+.kcbtm{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.kcdate{font-size:10px;color:var(--tx3);}
+.kcav{width:22px;height:22px;border-radius:5px;background:linear-gradient(135deg,var(--p),var(--pl));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;}
+
+/* ACTIVITY ITEMS */
+.act-item{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-bottom:1px solid var(--br);}
+.act-item:last-child{border-bottom:none;}
+.act-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.act-title{font-size:12px;font-weight:600;}
+.act-sub{font-size:11px;color:var(--tx2);margin-top:2px;}
+.act-time{font-size:10px;color:var(--tx3);margin-top:2px;}
+.act-right{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+
+/* CONTACT CARDS */
+.cntcard{background:var(--sf2);border:1px solid var(--br);border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.cntav{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;}
+.cntnm{font-size:13px;font-weight:600;}
+.cntrole{font-size:11px;color:var(--tx2);margin-top:2px;}
+.cntco{font-size:10px;color:var(--tx3);margin-top:1px;}
+.cntright{margin-left:auto;text-align:right;}
+
+/* SCORE BAR */
+.score-bar{display:flex;gap:4px;margin-top:6px;}
+.score-dot{width:8px;height:8px;border-radius:50%;}
+
+/* QUICK STATS STRIP */
+.qstrip{display:flex;gap:10px;margin-bottom:16px;overflow-x:auto;}
+.qchip{background:var(--sf);border:1px solid var(--br2);border-radius:9px;padding:8px 14px;white-space:nowrap;display:flex;flex-direction:column;align-items:center;min-width:90px;}
+.qcval{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
+.qclb{font-size:10px;color:var(--tx2);margin-top:2px;}
+
+/* TABS */
+.itabs{display:flex;border-bottom:1px solid var(--br);margin-bottom:0;}
+.itab{padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer;color:var(--tx2);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;}
+.itab.on{color:var(--pl);border-bottom-color:var(--pl);}
+.ipanel{display:none;padding-top:12px;}.ipanel.on{display:block;}
+
+/* DONUT CHART SIMPLE */
+.donut-wrap{display:flex;align-items:center;gap:16px;}
+.donut-legend{display:flex;flex-direction:column;gap:6px;}
+.dl-item{display:flex;align-items:center;gap:8px;font-size:11px;}
+.dl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+/* FUNNEL */
+.funnel{display:flex;flex-direction:column;gap:4px;}
+.funnel-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+.funnel-lbl{font-size:11px;color:var(--tx2);width:120px;flex-shrink:0;}
+.funnel-bar{height:22px;border-radius:4px;display:flex;align-items:center;padding:0 8px;}
+.funnel-val{font-size:11px;font-weight:600;color:#fff;}
+
+/* SETTINGS */
+.stabs{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap;}
+.stab{padding:7px 13px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--br2);background:transparent;color:var(--tx2);transition:all .2s;}
+.stab.on{background:var(--p);border-color:var(--p);color:#fff;}
+.spanel{display:none;}.spanel.on{display:block;}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--br);}
+.srow:last-child{border-bottom:none;}
+.swlbl{font-size:13px;font-weight:500;}
+.swsub{font-size:11px;color:var(--tx2);margin-top:2px;}
+.tgl{position:relative;display:inline-flex;align-items:center;gap:7px;cursor:pointer;}
+.tgli{display:none;}
+.tgltr{width:34px;height:18px;background:var(--br);border-radius:9px;transition:background .2s;position:relative;}
+.tgli:checked+.tgltr{background:var(--gr);}
+.tgltr::after{content:'';position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .2s;}
+.tgli:checked+.tgltr::after{left:19px;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--br2);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="ls">
+  <div class="lbox">
+    <div style="display:flex;justify-content:center;margin-bottom:6px">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 86" fill="none" style="width:130px;height:auto"><path fill-rule="evenodd" clip-rule="evenodd" d="M131.825 48.3429V30.7329C132.089 26.2586 135.176 24.2214 141.175 24.5963C135.076 22.1092 130.307 22.2717 126.981 24.3714C123.643 22.1342 118.799 21.8967 112.562 24.4463C118.573 24.0589 121.648 26.1086 121.911 30.583V48.1929L127.132 52.0923L131.813 48.3304L131.825 48.3429Z" fill="#7894E3"/><path fill-rule="evenodd" clip-rule="evenodd" d="M50.0659 42.669C49.9655 38.1821 49.9655 33.6703 50.2165 29.071C55.5625 20.1348 64.7864 23.3343 72.0901 22.7094C72.4038 29.1834 68.7771 31.8331 61.8874 31.3081C55.8512 30.5208 52.1616 34.8451 50.0659 42.6565" fill="#7894E3"/><path fill-rule="evenodd" clip-rule="evenodd" d="M194.346 40.2692L175.058 0.1875L152.846 51.63C158.606 51.63 159.396 50.4052 161.028 46.8057C163.676 40.9816 166.675 35.7073 173.966 37.0196C176.865 36.5697 176.213 32.6203 174.004 32.5578H171.168L167.415 32.5828L169.812 27.1461L172.812 20.3596L185.261 51.58L188.16 51.6675C195.614 51.8925 197.057 45.1935 194.359 40.2942" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M5.6661 40.0817L24.9545 0L47.167 51.4425C41.4068 51.4425 40.6162 50.2177 38.9848 46.6182C36.3369 40.7941 33.3375 35.5198 26.0463 36.8321C23.1474 36.3822 23.8 32.4328 26.0087 32.3703H28.8449L32.5971 32.3953L30.2002 26.9586L27.2009 20.1721L14.7519 51.3925L11.853 51.48C4.39861 51.705 2.95543 45.006 5.65355 40.1067" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M193.543 38.4321L199.529 52.0052C201.562 56.8295 196.405 65.4782 188.222 64.9533L156.422 64.9908C164.843 51.6677 166.876 51.8177 180.818 51.8177C191.949 51.9677 195.288 47.3683 193.543 38.4321Z" fill="#7894E3"/><path fill-rule="evenodd" clip-rule="evenodd" d="M194.66 40.9438L199.68 52.1797C201.336 56.854 196.392 65.4903 188.8 64.9778L159.547 65.0153C167.315 53.4045 169.335 53.317 182.186 53.3046C192.489 53.1546 196.279 48.6552 194.66 40.9438Z" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M6.45644 38.2446L0.470373 51.8177C-1.56263 56.642 3.59518 65.2907 11.7774 64.7658L43.5776 64.8033C35.1569 51.4802 33.1239 51.6302 19.1815 51.6302C8.05021 51.7802 4.71207 47.1808 6.45644 38.2446Z" fill="#7894E3"/><path fill-rule="evenodd" clip-rule="evenodd" d="M42.373 54.7796L158.254 54.5796C155.042 57.6416 152.519 61.0536 150.712 64.8406L50.0533 64.7906C48.2336 61.0162 45.5982 57.8416 42.3856 54.7796" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M87.2247 24.1717V45.1311C86.7102 49.1431 84.6521 50.5553 81.8912 50.7928V29.4709C82.1924 25.6965 83.9744 23.9342 87.2247 24.1842M85.0286 22.8594C93.1229 22.8594 99.6863 29.4209 99.6863 37.5072C99.6863 45.5936 93.1229 52.1551 85.0286 52.1551C76.9342 52.1551 70.3708 45.5936 70.3708 37.5072C70.3708 29.4209 76.9342 22.8594 85.0286 22.8594Z" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M50.0408 51.1301C50.4549 37.5571 55.7257 31.008 63.3808 32.8202V42.6313C63.1549 48.3055 58.9885 51.3175 50.0408 51.1426" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M103.338 52.0423V32.2327C104.643 29.1707 107.203 26.621 110.19 25.4087C112.537 25.1962 115.637 25.3712 118.109 26.4336C115.674 27.6584 114.67 29.1082 114.608 31.2079L114.645 44.5309C113.779 48.8803 109.676 51.1675 103.338 52.0423Z" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M150.361 51.9051V32.0955C149.056 29.0334 147.023 26.7837 144.036 25.5839C141.463 25.4964 138.815 25.6839 136.506 26.7337C138.941 27.9586 139.029 28.9709 139.104 31.0831L139.066 44.4062C139.932 48.7555 144.036 51.0427 150.373 51.9176" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M5.33983 40.7563L0.320064 51.9922C-1.33646 56.6665 3.60801 65.3028 11.2004 64.7904L40.4531 64.8279C32.685 53.217 30.6645 53.1295 17.8139 53.1171C7.51087 52.9671 3.72095 48.4677 5.33983 40.7563Z" fill="#17469D"/></svg>
+    </div>
+    <div class="lsub">CRM — Customer Relationship Management · Arihant Pumps Pvt. Ltd.</div>
+    <div class="ldiv"></div>
+    <input class="linp" type="text" placeholder="Username" value="neil.shah">
+    <input class="linp" type="password" placeholder="Password" value="••••••••">
+    <button class="lbtn" onclick="doLogin()">🔐 Login to CRM</button>
+    <div class="lhint">💧 Manage Leads · Track Deals · Close Sales Faster</div>
+    <div class="lroles">
+      <button class="lrole" onclick="doLogin()">👔 Sales Manager</button>
+      <button class="lrole" onclick="doLogin()">📞 Sales Rep</button>
+      <button class="lrole" onclick="doLogin()">📊 View Only</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+<header class="hdr">
+  <div class="hlogo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 86" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M131.825 48.3429V30.7329C132.089 26.2586 135.176 24.2214 141.175 24.5963C135.076 22.1092 130.307 22.2717 126.981 24.3714C123.643 22.1342 118.799 21.8967 112.562 24.4463C118.573 24.0589 121.648 26.1086 121.911 30.583V48.1929L127.132 52.0923L131.813 48.3304L131.825 48.3429Z" fill="#7894E3"/><path fill-rule="evenodd" clip-rule="evenodd" d="M50.0659 42.669C49.9655 38.1821 49.9655 33.6703 50.2165 29.071C55.5625 20.1348 64.7864 23.3343 72.0901 22.7094C72.4038 29.1834 68.7771 31.8331 61.8874 31.3081C55.8512 30.5208 52.1616 34.8451 50.0659 42.6565" fill="#7894E3"/><path fill-rule="evenodd" clip-rule="evenodd" d="M194.346 40.2692L175.058 0.1875L152.846 51.63C158.606 51.63 159.396 50.4052 161.028 46.8057C163.676 40.9816 166.675 35.7073 173.966 37.0196C176.865 36.5697 176.213 32.6203 174.004 32.5578H171.168L167.415 32.5828L169.812 27.1461L172.812 20.3596L185.261 51.58L188.16 51.6675C195.614 51.8925 197.057 45.1935 194.359 40.2942" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M5.6661 40.0817L24.9545 0L47.167 51.4425C41.4068 51.4425 40.6162 50.2177 38.9848 46.6182C36.3369 40.7941 33.3375 35.5198 26.0463 36.8321C23.1474 36.3822 23.8 32.4328 26.0087 32.3703H28.8449L32.5971 32.3953L30.2002 26.9586L27.2009 20.1721L14.7519 51.3925L11.853 51.48C4.39861 51.705 2.95543 45.006 5.65355 40.1067" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M193.543 38.4321L199.529 52.0052C201.562 56.8295 196.405 65.4782 188.222 64.9533L156.422 64.9908C164.843 51.6677 166.876 51.8177 180.818 51.8177C191.949 51.9677 195.288 47.3683 193.543 38.4321Z" fill="#7894E3"/><path fill-rule="evenodd" clip-rule="evenodd" d="M194.66 40.9438L199.68 52.1797C201.336 56.854 196.392 65.4903 188.8 64.9778L159.547 65.0153C167.315 53.4045 169.335 53.317 182.186 53.3046C192.489 53.1546 196.279 48.6552 194.66 40.9438Z" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M6.45644 38.2446L0.470373 51.8177C-1.56263 56.642 3.59518 65.2907 11.7774 64.7658L43.5776 64.8033C35.1569 51.4802 33.1239 51.6302 19.1815 51.6302C8.05021 51.7802 4.71207 47.1808 6.45644 38.2446Z" fill="#7894E3"/><path fill-rule="evenodd" clip-rule="evenodd" d="M42.373 54.7796L158.254 54.5796C155.042 57.6416 152.519 61.0536 150.712 64.8406L50.0533 64.7906C48.2336 61.0162 45.5982 57.8416 42.3856 54.7796" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M87.2247 24.1717V45.1311C86.7102 49.1431 84.6521 50.5553 81.8912 50.7928V29.4709C82.1924 25.6965 83.9744 23.9342 87.2247 24.1842M85.0286 22.8594C93.1229 22.8594 99.6863 29.4209 99.6863 37.5072C99.6863 45.5936 93.1229 52.1551 85.0286 52.1551C76.9342 52.1551 70.3708 45.5936 70.3708 37.5072C70.3708 29.4209 76.9342 22.8594 85.0286 22.8594Z" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M50.0408 51.1301C50.4549 37.5571 55.7257 31.008 63.3808 32.8202V42.6313C63.1549 48.3055 58.9885 51.3175 50.0408 51.1426" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M103.338 52.0423V32.2327C104.643 29.1707 107.203 26.621 110.19 25.4087C112.537 25.1962 115.637 25.3712 118.109 26.4336C115.674 27.6584 114.67 29.1082 114.608 31.2079L114.645 44.5309C113.779 48.8803 109.676 51.1675 103.338 52.0423Z" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M150.361 51.9051V32.0955C149.056 29.0334 147.023 26.7837 144.036 25.5839C141.463 25.4964 138.815 25.6839 136.506 26.7337C138.941 27.9586 139.029 28.9709 139.104 31.0831L139.066 44.4062C139.932 48.7555 144.036 51.0427 150.373 51.9176" fill="#17469D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M5.33983 40.7563L0.320064 51.9922C-1.33646 56.6665 3.60801 65.3028 11.2004 64.7904L40.4531 64.8279C32.685 53.217 30.6645 53.1295 17.8139 53.1171C7.51087 52.9671 3.72095 48.4677 5.33983 40.7563Z" fill="#17469D"/></svg>
+    <div class="hldiv"></div>
+    <div class="hltag"><b>CRM Portal</b>Sales & Relationship Mgmt</div>
+  </div>
+  <div class="hmid">
+    <input class="hsearch" placeholder="🔍  Search leads, contacts, deals...">
+  </div>
+  <div class="hright">
+    <div class="hlive"><div class="hldot"></div>Live</div>
+    <div class="hclock" id="clock"></div>
+    <div class="hicon" onclick="showPage('activities',null)">🔔<div class="hndot"></div></div>
+    <div style="text-align:right"><div class="huname">Neil Shah</div><div class="hurole">Sales Director</div></div>
+    <div class="hav">NS</div>
+  </div>
+</header>
+<div class="abody">
+<aside class="sb">
+  <div class="snav">
+    <div class="slbl">Overview</div>
+    <div class="si on" onclick="showPage('dashboard',this)"><span class="sic">📊</span>Dashboard</div>
+  </div>
+  <div class="snav">
+    <div class="slbl">Sales Pipeline</div>
+    <div class="si" onclick="showPage('leads',this)"><span class="sic">🎯</span>Leads<span class="sbdg" style="background:var(--rd)">8</span></div>
+    <div class="si" onclick="showPage('pipeline',this)"><span class="sic">📌</span>Pipeline / Deals<span class="sbdg" style="background:var(--p)">14</span></div>
+    <div class="si" onclick="showPage('quotes',this)"><span class="sic">📋</span>Quotes & Proposals<span class="sbdg" style="background:var(--yw);color:#000">4</span></div>
+  </div>
+  <div class="snav">
+    <div class="slbl">Relationships</div>
+    <div class="si" onclick="showPage('contacts',this)"><span class="sic">👤</span>Contacts</div>
+    <div class="si" onclick="showPage('accounts',this)"><span class="sic">🏢</span>Accounts / Companies</div>
+  </div>
+  <div class="snav">
+    <div class="slbl">Engagement</div>
+    <div class="si" onclick="showPage('activities',this)"><span class="sic">📅</span>Activities & Tasks<span class="sbdg" style="background:var(--yw);color:#000">6</span></div>
+    <div class="si" onclick="showPage('followups',this)"><span class="sic">🔁</span>Follow-ups</div>
+    <div class="si" onclick="showPage('emails',this)"><span class="sic">📧</span>Email & WhatsApp</div>
+  </div>
+  <div class="snav">
+    <div class="slbl">Analytics</div>
+    <div class="si" onclick="showPage('reports',this)"><span class="sic">📈</span>Reports</div>
+    <div class="si" onclick="showPage('targets',this)"><span class="sic">🏆</span>Sales Targets</div>
+  </div>
+  <div class="sbot">
+    <div class="si" onclick="showPage('settings',this)"><span class="sic">⚙️</span>Settings</div>
+    <div class="si" onclick="doLogout()"><span class="sic">🚪</span>Logout</div>
+  </div>
+</aside>
+<main class="mn">
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="pg on">
+  <div class="pgh"><div><div class="pgt">Good Morning, Neil Bhai! 👋</div><div class="pgs">Monday, 2 June 2025 · Here's your sales overview</div></div><div class="pgha"><button class="btn bo" onclick="openM('m-lead')">+ New Lead</button><button class="btn bp" onclick="openM('m-deal')">+ New Deal</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">Total Active Leads</div><div class="sv bl">38</div><div class="sch up">↑ 8 new this week</div></div>
+    <div class="sc"><div class="slb">Pipeline Value</div><div class="sv cy">₹1.84 Cr</div><div class="sch up">↑ 14 open deals</div></div>
+    <div class="sc"><div class="slb">Won This Month</div><div class="sv gn">₹42.6L</div><div class="sch up">↑ 7 deals closed</div></div>
+    <div class="sc"><div class="slb">Follow-ups Today</div><div class="sv yw">6</div><div class="sch">Pending action</div></div>
+  </div>
+  <div class="cg3">
+    <div class="cd" style="margin-bottom:0">
+      <div class="cdh"><div class="cdt">📌 Pipeline Summary (Stage-wise)</div><div class="cda" onclick="showPage('pipeline',null)">View Board →</div></div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--sf2);border-radius:8px;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#94a3b8;flex-shrink:0"></div>
+          <div style="flex:1;font-size:12px;font-weight:500">New Lead</div>
+          <div style="font-size:12px;font-weight:600;color:var(--tx2)">8 leads</div>
+          <div style="font-size:12px;font-weight:700;color:var(--pl)">₹28.4L</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--sf2);border-radius:8px;">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--cy);flex-shrink:0"></div>
+          <div style="flex:1;font-size:12px;font-weight:500">Contacted</div>
+          <div style="font-size:12px;font-weight:600;color:var(--tx2)">6 leads</div>
+          <div style="font-size:12px;font-weight:700;color:var(--pl)">₹22.8L</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--sf2);border-radius:8px;">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--yw);flex-shrink:0"></div>
+          <div style="flex:1;font-size:12px;font-weight:500">Demo Given</div>
+          <div style="font-size:12px;font-weight:600;color:var(--tx2)">5 leads</div>
+          <div style="font-size:12px;font-weight:700;color:var(--pl)">₹38.5L</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--sf2);border-radius:8px;">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--or);flex-shrink:0"></div>
+          <div style="flex:1;font-size:12px;font-weight:500">Proposal Sent</div>
+          <div style="font-size:12px;font-weight:600;color:var(--tx2)">4 leads</div>
+          <div style="font-size:12px;font-weight:700;color:var(--pl)">₹52.0L</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--sf2);border-radius:8px;">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--pu);flex-shrink:0"></div>
+          <div style="flex:1;font-size:12px;font-weight:500">Negotiation</div>
+          <div style="font-size:12px;font-weight:600;color:var(--tx2)">3 leads</div>
+          <div style="font-size:12px;font-weight:700;color:var(--pl)">₹42.8L</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--gr);flex-shrink:0"></div>
+          <div style="flex:1;font-size:12px;font-weight:500;color:var(--gr)">Won — June</div>
+          <div style="font-size:12px;font-weight:600;color:var(--tx2)">7 deals</div>
+          <div style="font-size:12px;font-weight:700;color:var(--gr)">₹42.6L ✓</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="cd" style="margin-bottom:0">
+        <div class="cdh"><div class="cdt">⏰ Today's Tasks</div></div>
+        <div class="act-item" style="padding:7px 0">
+          <div class="act-icon" style="background:rgba(34,211,238,.1);font-size:13px">📞</div>
+          <div><div class="act-title">Call — Rajesh Patel, Mehsana</div><div class="act-sub" style="font-size:10px">Follow-up on V4" 1HP quote</div></div>
+          <div class="act-right"><span class="bg yw">10:00 AM</span></div>
+        </div>
+        <div class="act-item" style="padding:7px 0">
+          <div class="act-icon" style="background:rgba(168,85,247,.1);font-size:13px">🤝</div>
+          <div><div class="act-title">Meeting — Gujarat Irrigation Co.</div><div class="act-sub" style="font-size:10px">Solar Pump bulk order discuss</div></div>
+          <div class="act-right"><span class="bg or">2:30 PM</span></div>
+        </div>
+        <div class="act-item" style="padding:7px 0;border-bottom:none">
+          <div class="act-icon" style="background:rgba(34,197,94,.1);font-size:13px">📧</div>
+          <div><div class="act-title">Send Quote — Star Irrigation, Baroda</div><div class="act-sub" style="font-size:10px">uPVC 4" pipe pricing</div></div>
+          <div class="act-right"><span class="bg rd">Overdue</span></div>
+        </div>
+      </div>
+      <div class="cd" style="margin-bottom:0">
+        <div class="cdh"><div class="cdt">📊 Lead Sources</div></div>
+        <div style="font-size:11px;display:flex;flex-direction:column;gap:5px;">
+          <div style="display:flex;align-items:center;gap:8px"><div style="flex:1;color:var(--tx2)">Trade Fair / Exhibition</div><div class="pb" style="width:70px"><div class="pf bl" style="width:75%"></div></div><span style="font-weight:600;color:var(--pl)">32%</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="flex:1;color:var(--tx2)">Referral / Dealer</div><div class="pb" style="width:70px"><div class="pf gn" style="width:60%"></div></div><span style="font-weight:600;color:var(--gr)">26%</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="flex:1;color:var(--tx2)">Website Inquiry</div><div class="pb" style="width:70px"><div class="pf" style="width:45%;background:var(--cy)"></div></div><span style="font-weight:600;color:var(--cy)">19%</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="flex:1;color:var(--tx2)">Cold Call / Field</div><div class="pb" style="width:70px"><div class="pf yw" style="width:35%"></div></div><span style="font-weight:600;color:var(--yw)">15%</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="flex:1;color:var(--tx2)">Social Media</div><div class="pb" style="width:70px"><div class="pf rd" style="width:20%"></div></div><span style="font-weight:600;color:var(--rd)">8%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cd">
+    <div class="cdh"><div class="cdt">🎯 Recent Leads</div><div class="cda" onclick="showPage('leads',null)">View All →</div></div>
+    <table><thead><tr><th>Lead ID</th><th>Name</th><th>Company</th><th>State</th><th>Product Interest</th><th>Source</th><th>Value</th><th>Stage</th><th>Assigned To</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td class="tb">LD-2281</td><td>Rajesh Patel</td><td>Kisaan Agri Store</td><td>Gujarat</td><td>Submersible Pump V4" 1HP</td><td><span class="bg bl">Trade Fair</span></td><td style="color:var(--pl);font-weight:600">₹4.8L</td><td><span class="bg yw">Contacted</span></td><td>Amit Joshi</td><td><button class="btn bo bsm" onclick="openM('m-lead')">View</button></td></tr>
+      <tr><td class="tb">LD-2282</td><td>Suresh Kumar</td><td>Gujarat Irrigation Co.</td><td>Gujarat</td><td>Solar Pump 3HP MPPT</td><td><span class="bg gn">Referral</span></td><td style="color:var(--pl);font-weight:600">₹18.5L</td><td><span class="bg or">Proposal Sent</span></td><td>Priya Mehta</td><td><button class="btn bo bsm" onclick="openM('m-lead')">View</button></td></tr>
+      <tr><td class="tb">LD-2283</td><td>Dinesh Sharma</td><td>Rajasthan Pump House</td><td>Rajasthan</td><td>uPVC Column Pipe 4"</td><td><span class="bg cy">Website</span></td><td style="color:var(--pl);font-weight:600">₹6.2L</td><td><span class="bg bl">New Lead</span></td><td>Vikas Shah</td><td><button class="btn bo bsm" onclick="openM('m-lead')">View</button></td></tr>
+      <tr><td class="tb">LD-2284</td><td>Mahesh Agarwal</td><td>MP Irrigation Dept.</td><td>M.P.</td><td>Submersible Pump + Motor Set</td><td><span class="bg pu">Govt. Tender</span></td><td style="color:var(--pl);font-weight:600">₹42.0L</td><td><span class="bg pu">Negotiation</span></td><td>Neil Shah</td><td><button class="btn bo bsm" onclick="openM('m-lead')">View</button></td></tr>
+      <tr><td class="tb">LD-2285</td><td>Kamlesh Patel</td><td>Star Irrigation, Baroda</td><td>Gujarat</td><td>uPVC Casing Pipe 6" + Wires</td><td><span class="bg gn">Cold Call</span></td><td style="color:var(--pl);font-weight:600">₹3.9L</td><td><span class="bg yw">Demo Given</span></td><td>Amit Joshi</td><td><button class="btn bo bsm" onclick="openM('m-lead')">View</button></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- LEADS -->
+<div id="page-leads" class="pg">
+  <div class="pgh"><div><div class="pgt">🎯 Leads</div><div class="pgs">All incoming inquiries — track from first contact to conversion</div></div><div class="pgha"><button class="btn bo">Export CSV</button><button class="btn bp" onclick="openM('m-lead')">+ Add Lead</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">Total Leads</div><div class="sv bl">38</div><div class="sch up">↑ 8 this week</div></div>
+    <div class="sc"><div class="slb">New (Uncontacted)</div><div class="sv yw">8</div><div class="sch">Follow up needed</div></div>
+    <div class="sc"><div class="slb">Conversion Rate</div><div class="sv gn">31%</div><div class="sch up">↑ vs 24% last month</div></div>
+    <div class="sc"><div class="slb">Avg Lead Value</div><div class="sv cy">₹8.4L</div><div class="sch">Per qualified lead</div></div>
+  </div>
+  <div class="cd">
+    <div class="cdh"><div class="cdt">All Leads</div><button class="btn bo bsm" onclick="openM('m-lead')">+ New Lead</button></div>
+    <table><thead><tr><th>Lead ID</th><th>Contact</th><th>Company</th><th>State</th><th>Product Interest</th><th>Source</th><th>Est. Value</th><th>Stage</th><th>Last Activity</th><th>Assigned</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td class="tb">LD-2281</td><td>Rajesh Patel</td><td>Kisaan Agri Store, Mehsana</td><td>GJ</td><td>Sub. Pump V4" 1HP × 200</td><td><span class="bg bl">Trade Fair</span></td><td style="color:var(--pl);font-weight:600">₹4.8L</td><td><span class="bg yw">Contacted</span></td><td>Call — 30 May</td><td>Amit Joshi</td><td style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openM('m-lead')">View</button><button class="btn bo bsm" onclick="openM('m-activity')">Activity</button></td></tr>
+      <tr><td class="tb">LD-2282</td><td>Suresh Kumar</td><td>Gujarat Irrigation Co.</td><td>GJ</td><td>Solar Pump 3HP × 50 sets</td><td><span class="bg gn">Referral</span></td><td style="color:var(--pl);font-weight:600">₹18.5L</td><td><span class="bg or">Proposal Sent</span></td><td>Meeting — 1 Jun</td><td>Priya Mehta</td><td style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openM('m-lead')">View</button><button class="btn bo bsm" onclick="openM('m-activity')">Activity</button></td></tr>
+      <tr><td class="tb">LD-2283</td><td>Dinesh Sharma</td><td>Rajasthan Pump House, Jaipur</td><td>RJ</td><td>uPVC Column Pipe 4" × 500</td><td><span class="bg cy">Website</span></td><td style="color:var(--pl);font-weight:600">₹6.2L</td><td><span class="bg bl">New Lead</span></td><td>—</td><td>Vikas Shah</td><td style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openM('m-lead')">View</button><button class="btn bo bsm" onclick="openM('m-activity')">Activity</button></td></tr>
+      <tr><td class="tb">LD-2284</td><td>Mahesh Agarwal</td><td>MP Irrigation Dept., Bhopal</td><td>MP</td><td>Pump + Motor Set × 200 units</td><td><span class="bg pu">Govt. Tender</span></td><td style="color:var(--pl);font-weight:600">₹42.0L</td><td><span class="bg pu">Negotiation</span></td><td>Meeting — 2 Jun</td><td>Neil Shah</td><td style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openM('m-lead')">View</button><button class="btn bo bsm" onclick="openM('m-activity')">Activity</button></td></tr>
+      <tr><td class="tb">LD-2285</td><td>Kamlesh Patel</td><td>Star Irrigation, Baroda</td><td>GJ</td><td>uPVC Pipe + Wiring Bundle</td><td><span class="bg gn">Cold Call</span></td><td style="color:var(--pl);font-weight:600">₹3.9L</td><td><span class="bg yw">Demo Given</span></td><td>Demo — 31 May</td><td>Amit Joshi</td><td style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openM('m-lead')">View</button><button class="btn bo bsm" onclick="openM('m-activity')">Activity</button></td></tr>
+      <tr><td class="tb">LD-2286</td><td>Vijay Bhatt</td><td>Bhatt Agri Solutions, Surat</td><td>GJ</td><td>Open Well Pump 1HP × 80</td><td><span class="bg bl">Trade Fair</span></td><td style="color:var(--pl);font-weight:600">₹2.5L</td><td><span class="bg bl">New Lead</span></td><td>—</td><td>Priya Mehta</td><td style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openM('m-lead')">View</button><button class="btn bo bsm" onclick="openM('m-activity')">Activity</button></td></tr>
+      <tr><td class="tb">LD-2287</td><td>Ravi Agrawal</td><td>Maharashtra Agri Depot, Nashik</td><td>MH</td><td>Winding Wire 1.5mm × 2000 kg</td><td><span class="bg cy">Website</span></td><td style="color:var(--pl);font-weight:600">₹9.6L</td><td><span class="bg yw">Contacted</span></td><td>Email — 1 Jun</td><td>Vikas Shah</td><td style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openM('m-lead')">View</button><button class="btn bo bsm" onclick="openM('m-activity')">Activity</button></td></tr>
+      <tr><td class="tb">LD-2274</td><td>Pravin Solanki</td><td>Solanki Farm, Gandhinagar</td><td>GJ</td><td>Solar Pump 5HP MPPT</td><td><span class="bg gn">Referral</span></td><td style="color:var(--pl);font-weight:600">₹14.8L</td><td><span class="bg gn">Won ✓</span></td><td>Order — 28 May</td><td>Neil Shah</td><td style="display:flex;gap:4px"><button class="btn bo bsm">View</button><button class="btn bgr bsm">Order →</button></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- PIPELINE KANBAN -->
+<div id="page-pipeline" class="pg">
+  <div class="pgh"><div><div class="pgt">📌 Sales Pipeline</div><div class="pgs">Drag deals across stages — ₹1.84 Cr in active pipeline</div></div><div class="pgha"><button class="btn bp" onclick="openM('m-deal')">+ New Deal</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">Active Deals</div><div class="sv bl">14</div><div class="sch">In pipeline</div></div>
+    <div class="sc"><div class="slb">Pipeline Value</div><div class="sv cy">₹1.84 Cr</div><div class="sch up">↑ ₹28L this week</div></div>
+    <div class="sc"><div class="slb">Expected Close (Jun)</div><div class="sv gn">₹62L</div><div class="sch">5 deals closing</div></div>
+    <div class="sc"><div class="slb">Win Rate</div><div class="sv yw">31%</div><div class="sch up">↑ 7% vs last month</div></div>
+  </div>
+  <div class="cd" style="padding:16px">
+    <div class="kboard">
+      <!-- NEW LEAD -->
+      <div class="kcol">
+        <div class="kchd"><div class="kct">🔵 New Lead</div><span class="kcn">8</span></div>
+        <div class="kstage" style="background:rgba(120,148,227,.4)"></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Rajasthan Pump House</div><div class="kcco">Dinesh Sharma · uPVC Column Pipe 4"</div><div class="kcval">₹6,25,000</div><div style="display:flex;gap:4px;flex-wrap:wrap"><span class="bg bl">uPVC Pipe</span><span class="bg cy">Website</span></div><div class="kcbtm"><span class="kcdate">Added: 02 Jun</span><div class="kcav">VS</div></div></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Bhatt Agri Solutions</div><div class="kcco">Vijay Bhatt · Open Well Pump 1HP</div><div class="kcval">₹2,56,000</div><div style="display:flex;gap:4px"><span class="bg gy">Open Well</span><span class="bg bl">Trade Fair</span></div><div class="kcbtm"><span class="kcdate">Added: 01 Jun</span><div class="kcav">PM</div></div></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Haryana Agri Board</div><div class="kcco">Sunil Yadav · Pump Set × 120</div><div class="kcval">₹8,40,000</div><div style="display:flex;gap:4px"><span class="bg bl">Sub. Pump</span><span class="bg pu">Govt.</span></div><div class="kcbtm"><span class="kcdate">Added: 02 Jun</span><div class="kcav">NS</div></div></div>
+      </div>
+      <!-- CONTACTED -->
+      <div class="kcol">
+        <div class="kchd"><div class="kct">📞 Contacted</div><span class="kcn">6</span></div>
+        <div class="kstage" style="background:rgba(34,211,238,.4)"></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Kisaan Agri Store</div><div class="kcco">Rajesh Patel · Sub. Pump V4" 1HP</div><div class="kcval">₹4,80,000</div><div style="display:flex;gap:4px"><span class="bg gn">Sub. Pump</span><span class="bg bl">Trade Fair</span></div><div class="kcbtm"><span class="kcdate">Call: 30 May</span><div class="kcav">AJ</div></div></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Maharashtra Agri Depot</div><div class="kcco">Ravi Agrawal · Winding Wire 1.5mm</div><div class="kcval">₹9,60,000</div><div style="display:flex;gap:4px"><span class="bg yw">Wire</span><span class="bg cy">Website</span></div><div class="kcbtm"><span class="kcdate">Email: 01 Jun</span><div class="kcav">VS</div></div></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Patel Farm Solutions</div><div class="kcco">Hitesh Patel · Motor V6" 5HP</div><div class="kcval">₹8,40,000</div><div style="display:flex;gap:4px"><span class="bg bl">Motor</span><span class="bg gn">Referral</span></div><div class="kcbtm"><span class="kcdate">Call: 01 Jun</span><div class="kcav">AJ</div></div></div>
+      </div>
+      <!-- DEMO GIVEN -->
+      <div class="kcol">
+        <div class="kchd"><div class="kct">🎬 Demo Given</div><span class="kcn">5</span></div>
+        <div class="kstage" style="background:rgba(245,158,11,.4)"></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Star Irrigation, Baroda</div><div class="kcco">Kamlesh Patel · Pipe + Wire Bundle</div><div class="kcval">₹3,92,000</div><div style="display:flex;gap:4px"><span class="bg yw">Pipe+Wire</span></div><div class="kcbtm"><span class="kcdate">Demo: 31 May</span><div class="kcav">AJ</div></div></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Agro Vision, Ahmedabad</div><div class="kcco">Neel Desai · Sub. Pump V6" 3HP</div><div class="kcval">₹12,60,000</div><div style="display:flex;gap:4px"><span class="bg bl">Sub. Pump</span></div><div class="kcbtm"><span class="kcdate">Demo: 29 May</span><div class="kcav">PM</div></div></div>
+      </div>
+      <!-- PROPOSAL SENT -->
+      <div class="kcol">
+        <div class="kchd"><div class="kct">📄 Proposal Sent</div><span class="kcn">4</span></div>
+        <div class="kstage" style="background:rgba(249,115,22,.4)"></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Gujarat Irrigation Co.</div><div class="kcco">Suresh Kumar · Solar Pump 3HP</div><div class="kcval">₹18,50,000</div><div style="display:flex;gap:4px"><span class="bg gn">Solar Pump</span><span class="bg gn">Referral</span></div><div class="kcbtm"><span class="kcdate">Proposal: 01 Jun</span><div class="kcav">PM</div></div></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Rajkot District DRDA</div><div class="kcco">Vijay Mehta · Pump Set × 300</div><div class="kcval">₹28,80,000</div><div style="display:flex;gap:4px"><span class="bg bl">Sub. Pump</span><span class="bg pu">Govt.</span></div><div class="kcbtm"><span class="kcdate">Proposal: 28 May</span><div class="kcav">NS</div></div></div>
+      </div>
+      <!-- NEGOTIATION -->
+      <div class="kcol">
+        <div class="kchd"><div class="kct">🤝 Negotiation</div><span class="kcn">3</span></div>
+        <div class="kstage" style="background:rgba(168,85,247,.4)"></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">MP Irrigation Dept.</div><div class="kcco">Mahesh Agarwal · Pump+Motor × 200</div><div class="kcval">₹42,00,000</div><div style="display:flex;gap:4px"><span class="bg pu">Govt. Tender</span></div><div class="kcbtm"><span class="kcdate">Meeting: 02 Jun</span><div class="kcav">NS</div></div></div>
+        <div class="kcard" onclick="openM('m-deal')"><div class="kcname">Bharat Pump House</div><div class="kcco">Sunil Jain · Pipe + Motor Combo</div><div class="kcval">₹14,40,000</div><div style="display:flex;gap:4px"><span class="bg cy">Combo</span></div><div class="kcbtm"><span class="kcdate">Call: 01 Jun</span><div class="kcav">VS</div></div></div>
+      </div>
+      <!-- WON -->
+      <div class="kcol">
+        <div class="kchd"><div class="kct">🏆 Won — June</div><span class="kcn">7</span></div>
+        <div class="kstage" style="background:rgba(34,197,94,.5)"></div>
+        <div class="kcard" style="border-color:rgba(34,197,94,.3)" onclick="openM('m-deal')"><div class="kcname">Solanki Farm, Gandhinagar</div><div class="kcco">Pravin Solanki · Solar 5HP</div><div class="kcval" style="color:var(--gr)">₹14,80,000 ✓</div><div style="display:flex;gap:4px"><span class="bg gn">Won</span></div><div class="kcbtm"><span class="kcdate">Closed: 28 May</span><div class="kcav">NS</div></div></div>
+        <div class="kcard" style="border-color:rgba(34,197,94,.3)" onclick="openM('m-deal')"><div class="kcname">Agro Solutions, Surat</div><div class="kcco">Open Well 1HP × 120</div><div class="kcval" style="color:var(--gr)">₹3,84,000 ✓</div><div style="display:flex;gap:4px"><span class="bg gn">Won</span></div><div class="kcbtm"><span class="kcdate">Closed: 25 May</span><div class="kcav">AJ</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUOTES -->
+<div id="page-quotes" class="pg">
+  <div class="pgh"><div><div class="pgt">📋 Quotes & Proposals</div><div class="pgs">Formal price quotations sent to prospects</div></div><div class="pgha"><button class="btn bp" onclick="openM('m-quote')">+ Create Quote</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">Total Quotes (June)</div><div class="sv bl">12</div><div class="sch">Sent to prospects</div></div>
+    <div class="sc"><div class="slb">Accepted</div><div class="sv gn">5</div><div class="sch up">42% acceptance rate</div></div>
+    <div class="sc"><div class="slb">Pending Response</div><div class="sv yw">4</div><div class="sch">Follow-up needed</div></div>
+    <div class="sc"><div class="slb">Quote Value (Jun)</div><div class="sv cy">₹1.12 Cr</div><div class="sch">Total quoted</div></div>
+  </div>
+  <div class="cd">
+    <div class="cdh"><div class="cdt">All Quotes — June 2025</div></div>
+    <table><thead><tr><th>Quote #</th><th>Lead</th><th>Company</th><th>Product</th><th>Qty</th><th>Rate</th><th>Total</th><th>Sent On</th><th>Valid Till</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td class="tb">QT-441</td><td>Suresh Kumar</td><td>Gujarat Irrigation Co.</td><td>Solar Pump 3HP MPPT</td><td>50 sets</td><td>₹37,000</td><td style="color:var(--pl);font-weight:600">₹18,50,000</td><td>01/06</td><td>15/06</td><td><span class="bg or">Awaiting</span></td><td><button class="btn bo bsm">View</button></td></tr>
+      <tr><td class="tb">QT-440</td><td>Vijay Mehta</td><td>Rajkot Dist. DRDA</td><td>Sub. Pump V4" 1HP</td><td>300 sets</td><td>₹9,600</td><td style="color:var(--pl);font-weight:600">₹28,80,000</td><td>28/05</td><td>12/06</td><td><span class="bg yw">Under Review</span></td><td><button class="btn bo bsm">View</button></td></tr>
+      <tr><td class="tb">QT-439</td><td>Rajesh Patel</td><td>Kisaan Agri Store</td><td>Sub. Pump V4" 1HP × 200</td><td>200</td><td>₹4,800</td><td style="color:var(--pl);font-weight:600">₹9,60,000</td><td>30/05</td><td>10/06</td><td><span class="bg or">Awaiting</span></td><td><button class="btn bo bsm">View</button></td></tr>
+      <tr><td class="tb">QT-438</td><td>Pravin Solanki</td><td>Solanki Farm, Gandhinagar</td><td>Solar Pump 5HP MPPT</td><td>5 sets</td><td>₹2,96,000</td><td style="color:var(--pl);font-weight:600">₹14,80,000</td><td>22/05</td><td>05/06</td><td><span class="bg gn">Accepted ✓</span></td><td><button class="btn bo bsm">View</button></td></tr>
+      <tr><td class="tb">QT-437</td><td>Kamlesh Patel</td><td>Star Irrigation, Baroda</td><td>uPVC Pipe 4" + Wire Bundle</td><td>Bundle</td><td>₹3,92,000</td><td style="color:var(--pl);font-weight:600">₹3,92,000</td><td>31/05</td><td>10/06</td><td><span class="bg yw">Demo Pending</span></td><td><button class="btn bo bsm">View</button></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- CONTACTS -->
+<div id="page-contacts" class="pg">
+  <div class="pgh"><div><div class="pgt">👤 Contacts</div><div class="pgs">All individuals — dealers, distributors, procurement managers, farmers</div></div><div class="pgha"><button class="btn bp" onclick="openM('m-contact')">+ Add Contact</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">Total Contacts</div><div class="sv bl">186</div><div class="sch">In CRM</div></div>
+    <div class="sc"><div class="slb">Active Leads</div><div class="sv yw">38</div><div class="sch">Currently tracked</div></div>
+    <div class="sc"><div class="slb">Customers (Won)</div><div class="sv gn">82</div><div class="sch">Past purchasers</div></div>
+    <div class="sc"><div class="slb">States Covered</div><div class="sv cy">9</div><div class="sch">GJ, RJ, MH, MP...</div></div>
+  </div>
+  <div class="cd">
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div class="cntcard"><div class="cntav" style="background:linear-gradient(135deg,#17469D,#7894E3)">RP</div><div style="flex:1"><div class="cntnm">Rajesh Patel</div><div class="cntrole">Owner · Kisaan Agri Store</div><div class="cntco">📍 Mehsana, Gujarat · 📞 98XXXXXXXX · ✉️ rajesh@kisaanagri.com</div></div><div class="cntright"><span class="bg yw">Contacted</span><div style="font-size:10px;color:var(--tx3);margin-top:4px">₹4.8L pipeline</div></div><button class="btn bo bsm" style="margin-left:10px;flex-shrink:0" onclick="openM('m-contact')">View</button></div>
+      <div class="cntcard"><div class="cntav" style="background:linear-gradient(135deg,#059669,#10b981)">SK</div><div style="flex:1"><div class="cntnm">Suresh Kumar</div><div class="cntrole">Procurement Manager · Gujarat Irrigation Co.</div><div class="cntco">📍 Ahmedabad, Gujarat · 📞 97XXXXXXXX · ✉️ s.kumar@gujaratirrigation.in</div></div><div class="cntright"><span class="bg or">Proposal Sent</span><div style="font-size:10px;color:var(--tx3);margin-top:4px">₹18.5L pipeline</div></div><button class="btn bo bsm" style="margin-left:10px;flex-shrink:0" onclick="openM('m-contact')">View</button></div>
+      <div class="cntcard"><div class="cntav" style="background:linear-gradient(135deg,#d97706,#f59e0b)">MA</div><div style="flex:1"><div class="cntnm">Mahesh Agarwal</div><div class="cntrole">Project Director · MP Irrigation Dept.</div><div class="cntco">📍 Bhopal, Madhya Pradesh · 📞 94XXXXXXXX · ✉️ m.agarwal@mpirrigation.gov.in</div></div><div class="cntright"><span class="bg pu">Negotiation</span><div style="font-size:10px;color:var(--tx3);margin-top:4px">₹42L pipeline</div></div><button class="btn bo bsm" style="margin-left:10px;flex-shrink:0" onclick="openM('m-contact')">View</button></div>
+      <div class="cntcard"><div class="cntav" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">PS</div><div style="flex:1"><div class="cntnm">Pravin Solanki</div><div class="cntrole">Farm Owner · Solanki Farm</div><div class="cntco">📍 Gandhinagar, Gujarat · 📞 99XXXXXXXX</div></div><div class="cntright"><span class="bg gn">Customer ✓</span><div style="font-size:10px;color:var(--tx3);margin-top:4px">₹14.8L won</div></div><button class="btn bo bsm" style="margin-left:10px;flex-shrink:0" onclick="openM('m-contact')">View</button></div>
+      <div class="cntcard"><div class="cntav" style="background:linear-gradient(135deg,#0891b2,#22d3ee)">DS</div><div style="flex:1"><div class="cntnm">Dinesh Sharma</div><div class="cntrole">Owner · Rajasthan Pump House</div><div class="cntco">📍 Jaipur, Rajasthan · 📞 93XXXXXXXX · ✉️ dinesh@rajpump.com</div></div><div class="cntright"><span class="bg bl">New Lead</span><div style="font-size:10px;color:var(--tx3);margin-top:4px">₹6.2L pipeline</div></div><button class="btn bo bsm" style="margin-left:10px;flex-shrink:0" onclick="openM('m-contact')">View</button></div>
+      <div class="cntcard" style="margin-bottom:0"><div class="cntav" style="background:linear-gradient(135deg,#dc2626,#f87171)">RA</div><div style="flex:1"><div class="cntnm">Ravi Agrawal</div><div class="cntrole">Purchase Manager · Maharashtra Agri Depot</div><div class="cntco">📍 Nashik, Maharashtra · 📞 91XXXXXXXX</div></div><div class="cntright"><span class="bg yw">Contacted</span><div style="font-size:10px;color:var(--tx3);margin-top:4px">₹9.6L pipeline</div></div><button class="btn bo bsm" style="margin-left:10px;flex-shrink:0" onclick="openM('m-contact')">View</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNTS / COMPANIES -->
+<div id="page-accounts" class="pg">
+  <div class="pgh"><div><div class="pgt">🏢 Accounts / Companies</div><div class="pgs">Company-level view — all deals and contacts under one roof</div></div><div class="pgha"><button class="btn bp" onclick="openM('m-account')">+ Add Company</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">Total Accounts</div><div class="sv bl">64</div><div class="sch">Companies in CRM</div></div>
+    <div class="sc"><div class="slb">Active Deals</div><div class="sv yw">14</div><div class="sch">Across companies</div></div>
+    <div class="sc"><div class="slb">Revenue (June)</div><div class="sv gn">₹42.6L</div><div class="sch">From 7 accounts</div></div>
+    <div class="sc"><div class="slb">Top Account Value</div><div class="sv cy">₹42L</div><div class="sch">MP Irrigation Dept.</div></div>
+  </div>
+  <div class="cd">
+    <div class="cdh"><div class="cdt">All Accounts</div></div>
+    <table><thead><tr><th>Company</th><th>Type</th><th>State</th><th>Products Buying</th><th>Contacts</th><th>Deals</th><th>Total Value</th><th>Relationship</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td class="tb">Gujarat Irrigation Co.</td><td><span class="bg gn">Irrigation Dept.</span></td><td>Gujarat</td><td>Solar Pumps, Sub. Pumps</td><td>2</td><td>1 Active</td><td style="color:var(--pl);font-weight:600">₹74.4L/yr</td><td><span class="bg gn">Key Account</span></td><td><button class="btn bo bsm" onclick="openM('m-account')">View</button></td></tr>
+      <tr><td class="tb">Kisaan Agri Store</td><td><span class="bg bl">Dealer</span></td><td>Gujarat</td><td>Sub. Pumps, Motors</td><td>1</td><td>1 Active</td><td style="color:var(--pl);font-weight:600">₹48.0L/yr</td><td><span class="bg bl">Regular</span></td><td><button class="btn bo bsm" onclick="openM('m-account')">View</button></td></tr>
+      <tr><td class="tb">MP Irrigation Dept.</td><td><span class="bg pu">Government</span></td><td>M.P.</td><td>Pump + Motor Set</td><td>1</td><td>1 Active</td><td style="color:var(--pl);font-weight:600">₹42.0L</td><td><span class="bg pu">New</span></td><td><button class="btn bo bsm" onclick="openM('m-account')">View</button></td></tr>
+      <tr><td class="tb">Rajkot Dist. DRDA</td><td><span class="bg pu">Government</span></td><td>Gujarat</td><td>Sub. Pump Sets</td><td>1</td><td>1 Active</td><td style="color:var(--pl);font-weight:600">₹28.8L</td><td><span class="bg yw">In Talks</span></td><td><button class="btn bo bsm" onclick="openM('m-account')">View</button></td></tr>
+      <tr><td class="tb">Patel Farm Solutions</td><td><span class="bg gn">Distributor</span></td><td>Gujarat</td><td>Motors, Solar Pumps</td><td>2</td><td>1 Active</td><td style="color:var(--pl);font-weight:600">₹28.2L/yr</td><td><span class="bg gn">Key Account</span></td><td><button class="btn bo bsm" onclick="openM('m-account')">View</button></td></tr>
+      <tr><td class="tb">Maharashtra Agri Depot</td><td><span class="bg cy">Distributor</span></td><td>Maharashtra</td><td>Wires, Pipes</td><td>1</td><td>1 Active</td><td style="color:var(--pl);font-weight:600">₹18.6L/yr</td><td><span class="bg rd">Overdue Pmnt.</span></td><td><button class="btn bo bsm" onclick="openM('m-account')">View</button></td></tr>
+      <tr><td class="tb">Rajasthan Pump House</td><td><span class="bg bl">Dealer</span></td><td>Rajasthan</td><td>Pipes + Pumps</td><td>1</td><td>1 Active</td><td style="color:var(--pl);font-weight:600">₹36.4L/yr</td><td><span class="bg yw">Prospect</span></td><td><button class="btn bo bsm" onclick="openM('m-account')">View</button></td></tr>
+    </tbody></table>
+  </div>
+</div>
+<!-- ACTIVITIES -->
+<div id="page-activities" class="pg">
+  <div class="pgh"><div><div class="pgt">📅 Activities & Tasks</div><div class="pgs">Calls, meetings, follow-ups — never miss an action</div></div><div class="pgha"><button class="btn bp" onclick="openM('m-activity')">+ Log Activity</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">Today's Tasks</div><div class="sv yw">6</div><div class="sch">Action pending</div></div>
+    <div class="sc"><div class="slb">Overdue</div><div class="sv rd">3</div><div class="sch dn">Immediate attention</div></div>
+    <div class="sc"><div class="slb">Completed (June)</div><div class="sv gn">48</div><div class="sch up">On time: 82%</div></div>
+    <div class="sc"><div class="slb">Upcoming (This Week)</div><div class="sv bl">12</div><div class="sch">Scheduled</div></div>
+  </div>
+  <div class="cg">
+    <div class="cd" style="margin-bottom:0">
+      <div class="cdh"><div class="cdt">⏰ Today — 2 June 2025</div><button class="btn bo bsm" onclick="openM('m-activity')">+ Add</button></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(239,68,68,.1)">📞</div><div style="flex:1"><div class="act-title">Call — Rajesh Patel (Kisaan Agri)</div><div class="act-sub">Follow-up on V4" 1HP quote QT-439 · Price negotiation pending</div><div class="act-time">10:00 AM · Assigned: Amit Joshi</div></div><div class="act-right"><span class="bg rd">Overdue</span><button class="btn bo bsm" style="margin-top:4px">Done</button></div></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(168,85,247,.1)">🤝</div><div style="flex:1"><div class="act-title">Meeting — Gujarat Irrigation Co. (Suresh Kumar)</div><div class="act-sub">Solar Pump 3HP bulk order — Ahmedabad office visit</div><div class="act-time">2:30 PM · Assigned: Priya Mehta</div></div><div class="act-right"><span class="bg yw">Upcoming</span><button class="btn bo bsm" style="margin-top:4px">Done</button></div></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(34,197,94,.1)">📧</div><div style="flex:1"><div class="act-title">Send Quote — Star Irrigation, Baroda</div><div class="act-sub">uPVC 4" pipe + wire combo pricing — QT draft ready</div><div class="act-time">EOD · Assigned: Amit Joshi</div></div><div class="act-right"><span class="bg rd">Overdue</span><button class="btn bp bsm" style="margin-top:4px">Send</button></div></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(120,148,227,.1)">📞</div><div style="flex:1"><div class="act-title">Call — Mahesh Agarwal (MP Irrigation)</div><div class="act-sub">Negotiate final price — ₹42L deal — Director level call</div><div class="act-time">4:00 PM · Assigned: Neil Shah</div></div><div class="act-right"><span class="bg bl">Scheduled</span><button class="btn bo bsm" style="margin-top:4px">Done</button></div></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(249,115,22,.1)">📝</div><div style="flex:1"><div class="act-title">Update Proposal — Rajkot DRDA</div><div class="act-sub">Add revised payment terms — 60 days credit requested</div><div class="act-time">EOD · Assigned: Vikas Shah</div></div><div class="act-right"><span class="bg or">In Progress</span><button class="btn bo bsm" style="margin-top:4px">Done</button></div></div>
+    </div>
+    <div class="cd" style="margin-bottom:0">
+      <div class="cdh"><div class="cdt">📆 Upcoming — This Week</div></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(34,211,238,.1)">🤝</div><div style="flex:1"><div class="act-title">Demo Visit — Haryana Agri Board</div><div class="act-sub">Pump performance demo at site — Chandigarh</div><div class="act-time">04 Jun · Assigned: Neil Shah</div></div><div class="act-right"><span class="bg cy">03 Jun</span></div></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(34,197,94,.1)">📞</div><div style="flex:1"><div class="act-title">Follow-up Call — Maharashtra Agri</div><div class="act-sub">Wire 1.5mm order status + payment reminder</div><div class="act-time">04 Jun · Assigned: Vikas Shah</div></div><div class="act-right"><span class="bg gn">04 Jun</span></div></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(168,85,247,.1)">🎬</div><div style="flex:1"><div class="act-title">Product Demo — Bhatt Agri, Surat</div><div class="act-sub">Open Well Pump 1HP demo at unit</div><div class="act-time">05 Jun · Assigned: Priya Mehta</div></div><div class="act-right"><span class="bg pu">05 Jun</span></div></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(245,158,11,.1)">📋</div><div style="flex:1"><div class="act-title">Send Revised Quote — Rajkot DRDA</div><div class="act-sub">Updated with 60-day credit terms</div><div class="act-time">05 Jun · Assigned: Vikas Shah</div></div><div class="act-right"><span class="bg yw">05 Jun</span></div></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(120,148,227,.1)">🤝</div><div style="flex:1"><div class="act-title">Negotiation Meeting — MP Irrigation</div><div class="act-sub">Final price discussion — ₹42L deal close</div><div class="act-time">06 Jun · Assigned: Neil Shah</div></div><div class="act-right"><span class="bg bl">06 Jun</span></div></div>
+      <div class="act-item"><div class="act-icon" style="background:rgba(34,197,94,.1)" style="border-bottom:none">📞</div><div style="flex:1"><div class="act-title">Call — Dinesh Sharma, Rajasthan Pump</div><div class="act-sub">First contact — pipe pricing inquiry</div><div class="act-time">06 Jun · Assigned: Vikas Shah</div></div><div class="act-right"><span class="bg gn">06 Jun</span></div></div>
+    </div>
+  </div>
+  <div class="cd">
+    <div class="cdh"><div class="cdt">📋 Activity Log — Recent History</div></div>
+    <table><thead><tr><th>Date</th><th>Type</th><th>Contact</th><th>Company</th><th>Description</th><th>Outcome</th><th>Done By</th></tr></thead>
+    <tbody>
+      <tr><td>01/06</td><td><span class="bg pu">Meeting</span></td><td>Suresh Kumar</td><td>Gujarat Irrigation Co.</td><td>Discussed 3HP solar pump requirements — 50 sets</td><td><span class="bg gn">Proposal Sent</span></td><td>Priya Mehta</td></tr>
+      <tr><td>01/06</td><td><span class="bg cy">Email</span></td><td>Ravi Agrawal</td><td>Maharashtra Agri</td><td>Wire pricing + delivery schedule shared</td><td><span class="bg yw">Awaiting Reply</span></td><td>Vikas Shah</td></tr>
+      <tr><td>31/05</td><td><span class="bg or">Demo</span></td><td>Kamlesh Patel</td><td>Star Irrigation</td><td>Pipe + wire bundle demo at Unit 2</td><td><span class="bg yw">Quote Pending</span></td><td>Amit Joshi</td></tr>
+      <tr><td>30/05</td><td><span class="bg bl">Call</span></td><td>Rajesh Patel</td><td>Kisaan Agri Store</td><td>Discussed V4" 1HP pricing — wants bulk discount</td><td><span class="bg yw">Quote Sent</span></td><td>Amit Joshi</td></tr>
+      <tr><td>28/05</td><td><span class="bg pu">Meeting</span></td><td>Pravin Solanki</td><td>Solanki Farm</td><td>Final negotiation — Solar 5HP × 5 sets</td><td><span class="bg gn">Deal Won ✓</span></td><td>Neil Shah</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- FOLLOW-UPS -->
+<div id="page-followups" class="pg">
+  <div class="pgh"><div><div class="pgt">🔁 Follow-ups</div><div class="pgs">Scheduled reminders — never let a lead go cold</div></div><div class="pgha"><button class="btn bp" onclick="openM('m-followup')">+ Schedule Follow-up</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">Overdue Follow-ups</div><div class="sv rd">3</div><div class="sch dn">Act now</div></div>
+    <div class="sc"><div class="slb">Due Today</div><div class="sv yw">4</div><div class="sch">Complete today</div></div>
+    <div class="sc"><div class="slb">This Week</div><div class="sv bl">12</div><div class="sch">Scheduled</div></div>
+    <div class="sc"><div class="slb">Completed (June)</div><div class="sv gn">28</div><div class="sch">Done</div></div>
+  </div>
+  <div class="cd">
+    <div class="cdh"><div class="cdt">Follow-up Queue</div></div>
+    <table><thead><tr><th>Priority</th><th>Lead / Contact</th><th>Company</th><th>Last Contact</th><th>Follow-up Type</th><th>Due Date</th><th>Notes</th><th>Assigned</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><span class="bg rd">🔴 Overdue</span></td><td>Rajesh Patel</td><td>Kisaan Agri Store</td><td>Call — 30 May</td><td>📞 Call</td><td style="color:var(--rd);font-weight:600">01 Jun</td><td>Price negotiation on V4" quote</td><td>Amit Joshi</td><td><button class="btn bgr bsm">Call Now</button></td></tr>
+      <tr><td><span class="bg rd">🔴 Overdue</span></td><td>Kamlesh Patel</td><td>Star Irrigation</td><td>Demo — 31 May</td><td>📋 Send Quote</td><td style="color:var(--rd);font-weight:600">01 Jun</td><td>Pipe + wire bundle pricing</td><td>Amit Joshi</td><td><button class="btn bp bsm">Send Quote</button></td></tr>
+      <tr><td><span class="bg yw">🟡 Today</span></td><td>Suresh Kumar</td><td>Gujarat Irrigation</td><td>Meeting — 01 Jun</td><td>🤝 Meeting</td><td style="color:var(--yw);font-weight:600">02 Jun</td><td>Finalize 50-set solar order</td><td>Priya Mehta</td><td><button class="btn bo bsm">Update</button></td></tr>
+      <tr><td><span class="bg yw">🟡 Today</span></td><td>Mahesh Agarwal</td><td>MP Irrigation</td><td>Meeting — 02 Jun</td><td>📞 Call</td><td style="color:var(--yw);font-weight:600">02 Jun</td><td>Price finalize — ₹42L deal</td><td>Neil Shah</td><td><button class="btn bo bsm">Update</button></td></tr>
+      <tr><td><span class="bg bl">🔵 Upcoming</span></td><td>Dinesh Sharma</td><td>Rajasthan Pump House</td><td>Added — 02 Jun</td><td>📞 First Call</td><td>06 Jun</td><td>Introduce AROMA pipe range</td><td>Vikas Shah</td><td><button class="btn bo bsm">Update</button></td></tr>
+      <tr><td><span class="bg bl">🔵 Upcoming</span></td><td>Ravi Agrawal</td><td>Maharashtra Agri</td><td>Email — 01 Jun</td><td>📞 Call</td><td>04 Jun</td><td>Wire order + overdue payment</td><td>Vikas Shah</td><td><button class="btn bo bsm">Update</button></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- EMAIL & WHATSAPP -->
+<div id="page-emails" class="pg">
+  <div class="pgh"><div><div class="pgt">📧 Email & WhatsApp</div><div class="pgs">Track all communications sent to leads and customers</div></div><div class="pgha"><button class="btn bo" onclick="openM('m-email')">📧 Send Email</button><button class="btn bp" onclick="openM('m-whatsapp')">💬 Send WhatsApp</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">Emails Sent (June)</div><div class="sv bl">34</div><div class="sch">To leads/customers</div></div>
+    <div class="sc"><div class="slb">WhatsApp Sent</div><div class="sv gn">68</div><div class="sch">Quick follow-ups</div></div>
+    <div class="sc"><div class="slb">Open Rate</div><div class="sv yw">64%</div><div class="sch up">↑ Industry avg 42%</div></div>
+    <div class="sc"><div class="slb">Reply Rate</div><div class="sv cy">38%</div><div class="sch">Good engagement</div></div>
+  </div>
+  <div class="cd">
+    <div class="cdh"><div class="cdt">Recent Communications</div></div>
+    <table><thead><tr><th>Date</th><th>Type</th><th>To</th><th>Company</th><th>Subject / Message</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td>01/06</td><td><span class="bg bl">📧 Email</span></td><td>Ravi Agrawal</td><td>Maharashtra Agri</td><td>AROMA Winding Wire Price List — June 2025</td><td><span class="bg gn">Opened ✓</span></td><td><button class="btn bo bsm">View</button></td></tr>
+      <tr><td>01/06</td><td><span class="bg gn">💬 WhatsApp</span></td><td>Rajesh Patel</td><td>Kisaan Agri</td><td>Quote QT-439 attached — V4" 1HP × 200 pcs</td><td><span class="bg gn">Delivered ✓</span></td><td><button class="btn bo bsm">View</button></td></tr>
+      <tr><td>31/05</td><td><span class="bg or">📧 Email</span></td><td>Suresh Kumar</td><td>Gujarat Irrigation</td><td>AROMA Solar Pump 3HP System — Full Proposal</td><td><span class="bg yw">Opened, No Reply</span></td><td><button class="btn bo bsm">Follow-up</button></td></tr>
+      <tr><td>31/05</td><td><span class="bg gn">💬 WhatsApp</span></td><td>Mahesh Agarwal</td><td>MP Irrigation</td><td>Meeting confirmation for 2nd June 4 PM</td><td><span class="bg gn">Read ✓</span></td><td><button class="btn bo bsm">View</button></td></tr>
+      <tr><td>30/05</td><td><span class="bg bl">📧 Email</span></td><td>Vijay Mehta</td><td>Rajkot DRDA</td><td>Revised Government Rate Sheet + IS Certificates</td><td><span class="bg gn">Opened ✓</span></td><td><button class="btn bo bsm">View</button></td></tr>
+      <tr><td>29/05</td><td><span class="bg gn">💬 WhatsApp</span></td><td>Kamlesh Patel</td><td>Star Irrigation</td><td>"Demo schedule confirm hai — 31 May 11 AM"</td><td><span class="bg gn">Read ✓</span></td><td><button class="btn bo bsm">View</button></td></tr>
+    </tbody></table>
+  </div>
+  <div class="cd">
+    <div class="cdh"><div class="cdt">📋 Email Templates — Quick Send</div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="background:var(--sf2);border:1px solid var(--br);border-radius:9px;padding:13px;cursor:pointer" onclick="openM('m-email')"><div style="font-size:13px;font-weight:600;margin-bottom:4px">📦 Product Introduction</div><div style="font-size:11px;color:var(--tx2)">Introduce AROMA product range to a new prospect</div><button class="btn bp bsm" style="margin-top:8px">Use Template</button></div>
+      <div style="background:var(--sf2);border:1px solid var(--br);border-radius:9px;padding:13px;cursor:pointer" onclick="openM('m-email')"><div style="font-size:13px;font-weight:600;margin-bottom:4px">💰 Quotation Cover</div><div style="font-size:11px;color:var(--tx2)">Cover email when sending a price quote</div><button class="btn bp bsm" style="margin-top:8px">Use Template</button></div>
+      <div style="background:var(--sf2);border:1px solid var(--br);border-radius:9px;padding:13px;cursor:pointer" onclick="openM('m-email')"><div style="font-size:13px;font-weight:600;margin-bottom:4px">🔁 Follow-up Reminder</div><div style="font-size:11px;color:var(--tx2)">Gentle follow-up after no response for 5+ days</div><button class="btn bp bsm" style="margin-top:8px">Use Template</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- REPORTS -->
+<div id="page-reports" class="pg">
+  <div class="pgh"><div><div class="pgt">📈 Reports & Analytics</div><div class="pgs">Sales performance, conversion trends, team insights</div></div><div class="pgha"><button class="btn bo">Export PDF</button><button class="btn bp">Export Excel</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">Revenue — May 2025</div><div class="sv bl">₹3.84 Cr</div><div class="sch up">↑ 18% vs April</div></div>
+    <div class="sc"><div class="slb">Deals Won (May)</div><div class="sv gn">22</div><div class="sch up">↑ 4 more than April</div></div>
+    <div class="sc"><div class="slb">Avg Deal Size</div><div class="sv cy">₹8.4L</div><div class="sch up">↑ ₹1.2L vs April</div></div>
+    <div class="sc"><div class="slb">Sales Cycle</div><div class="sv yw">18 Days</div><div class="sch">Avg close time</div></div>
+  </div>
+  <div class="cg">
+    <div class="cd" style="margin-bottom:0">
+      <div class="cdh"><div class="cdt">Monthly Revenue Trend</div></div>
+      <div style="display:flex;align-items:flex-end;gap:6px;height:100px;padding:8px 0">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="width:100%;height:55%;background:rgba(120,148,227,.3);border-radius:4px 4px 0 0"></div></div><div style="font-size:9px;color:var(--tx3)">Jan</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="width:100%;height:60%;background:rgba(120,148,227,.35);border-radius:4px 4px 0 0"></div></div><div style="font-size:9px;color:var(--tx3)">Feb</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="width:100%;height:65%;background:rgba(120,148,227,.4);border-radius:4px 4px 0 0"></div></div><div style="font-size:9px;color:var(--tx3)">Mar</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="width:100%;height:70%;background:rgba(120,148,227,.5);border-radius:4px 4px 0 0"></div></div><div style="font-size:9px;color:var(--tx3)">Apr</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="width:100%;height:90%;background:linear-gradient(180deg,var(--p),var(--pl));border-radius:4px 4px 0 0"></div></div><div style="font-size:9px;color:var(--pl);font-weight:600">May</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="width:100%;height:38%;background:rgba(34,211,238,.3);border-radius:4px 4px 0 0;border:1px dashed var(--cy)"></div></div><div style="font-size:9px;color:var(--cy)">Jun*</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--tx3);text-align:center">*June partial · May peak: ₹3.84 Cr</div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--tx2)">May Revenue</span><span style="font-weight:600;color:var(--gr)">₹3.84 Cr</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--tx2)">June (so far)</span><span style="font-weight:600;color:var(--cy)">₹42.6L</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--tx2)">June Target</span><span style="font-weight:600;color:var(--yw)">₹4.20 Cr</span></div>
+      </div>
+    </div>
+    <div class="cd" style="margin-bottom:0">
+      <div class="cdh"><div class="cdt">Lead Conversion Funnel</div></div>
+      <div class="funnel">
+        <div class="funnel-row"><span class="funnel-lbl">Total Leads</span><div class="funnel-bar" style="width:100%;background:rgba(120,148,227,.3)"><span class="funnel-val">38 leads</span></div></div>
+        <div class="funnel-row"><span class="funnel-lbl">Contacted</span><div class="funnel-bar" style="width:85%;background:rgba(34,211,238,.3)"><span class="funnel-val">32 leads</span></div></div>
+        <div class="funnel-row"><span class="funnel-lbl">Demo Given</span><div class="funnel-bar" style="width:62%;background:rgba(245,158,11,.4)"><span class="funnel-val">24 leads</span></div></div>
+        <div class="funnel-row"><span class="funnel-lbl">Proposal Sent</span><div class="funnel-bar" style="width:45%;background:rgba(249,115,22,.4)"><span class="funnel-val">17 leads</span></div></div>
+        <div class="funnel-row"><span class="funnel-lbl">Negotiation</span><div class="funnel-bar" style="width:30%;background:rgba(168,85,247,.4)"><span class="funnel-val">11 leads</span></div></div>
+        <div class="funnel-row"><span class="funnel-lbl">Won ✓</span><div class="funnel-bar" style="width:18%;background:rgba(34,197,94,.5)"><span class="funnel-val">7 deals</span></div></div>
+      </div>
+      <div style="margin-top:10px;padding:9px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;font-size:11px;color:var(--gr)">
+        Conversion Rate: <strong>18.4%</strong> (38 leads → 7 won) · Improving ↑ from 14% last month
+      </div>
+    </div>
+  </div>
+  <div class="cg">
+    <div class="cd" style="margin-bottom:0">
+      <div class="cdh"><div class="cdt">Team Performance — May 2025</div></div>
+      <table><thead><tr><th>Sales Rep</th><th>Leads Handled</th><th>Deals Won</th><th>Revenue</th><th>Conversion</th><th>Avg Deal Size</th></tr></thead>
+      <tbody>
+        <tr><td class="tb">Neil Shah</td><td>8</td><td>4</td><td style="color:var(--pl);font-weight:600">₹1.24 Cr</td><td><span class="bg gn">50%</span></td><td>₹31.0L</td></tr>
+        <tr><td class="tb">Priya Mehta</td><td>12</td><td>5</td><td style="color:var(--pl);font-weight:600">₹98.4L</td><td><span class="bg gn">42%</span></td><td>₹19.7L</td></tr>
+        <tr><td class="tb">Amit Joshi</td><td>14</td><td>8</td><td style="color:var(--pl);font-weight:600">₹88.2L</td><td><span class="bg gn">57%</span></td><td>₹11.0L</td></tr>
+        <tr><td class="tb">Vikas Shah</td><td>10</td><td>5</td><td style="color:var(--pl);font-weight:600">₹74.0L</td><td><span class="bg yw">50%</span></td><td>₹14.8L</td></tr>
+      </tbody></table>
+    </div>
+    <div class="cd" style="margin-bottom:0">
+      <div class="cdh"><div class="cdt">Category-wise Sales — May</div></div>
+      <table><thead><tr><th>Product Category</th><th>Deals</th><th>Revenue</th><th>Growth</th></tr></thead>
+      <tbody>
+        <tr><td class="tb">Submersible Pumps</td><td>10</td><td style="color:var(--pl);font-weight:600">₹1.68 Cr</td><td style="color:var(--gr)">↑ 22%</td></tr>
+        <tr><td class="tb">Solar Pump Systems</td><td>4</td><td style="color:var(--pl);font-weight:600">₹84.0L</td><td style="color:var(--gr)">↑ 48%</td></tr>
+        <tr><td class="tb">Submersible Motors</td><td>5</td><td style="color:var(--pl);font-weight:600">₹72.0L</td><td style="color:var(--gr)">↑ 10%</td></tr>
+        <tr><td class="tb">uPVC Pipes</td><td>8</td><td style="color:var(--pl);font-weight:600">₹64.8L</td><td style="color:var(--rd)">↓ 5%</td></tr>
+        <tr><td class="tb">Wires & Cables</td><td>6</td><td style="color:var(--pl);font-weight:600">₹54.8L</td><td style="color:var(--gr)">↑ 8%</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- TARGETS -->
+<div id="page-targets" class="pg">
+  <div class="pgh"><div><div class="pgt">🏆 Sales Targets</div><div class="pgs">Monthly and quarterly targets vs achievement</div></div><div class="pgha"><button class="btn bp" onclick="openM('m-target')">Set Target</button></div></div>
+  <div class="sg">
+    <div class="sc"><div class="slb">June Target</div><div class="sv bl">₹4.20 Cr</div><div class="sch">Monthly goal</div></div>
+    <div class="sc"><div class="slb">June Achieved (so far)</div><div class="sv gn">₹42.6L</div><div class="sch">10% complete</div></div>
+    <div class="sc"><div class="slb">Q2 Target (Apr–Jun)</div><div class="sv cy">₹12 Cr</div><div class="sch">Quarterly</div></div>
+    <div class="sc"><div class="slb">Q2 Achieved</div><div class="sv yw">₹8.64 Cr</div><div class="sch">72% done</div></div>
+  </div>
+  <div class="cd">
+    <div class="cdh"><div class="cdt">Individual Sales Targets — June 2025</div></div>
+    <table><thead><tr><th>Sales Rep</th><th>Target</th><th>Achieved</th><th>% Done</th><th>Pipeline Coverage</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td class="tb">Neil Shah</td><td>₹1,20,00,000</td><td style="color:var(--gr);font-weight:600">₹14,80,000</td><td><div style="display:flex;align-items:center;gap:6px"><div class="pb" style="width:80px"><div class="pf bl" style="width:12%"></div></div><span>12%</span></div></td><td style="color:var(--gr)">₹64.8L pipeline</td><td><span class="bg yw">On Track</span></td></tr>
+      <tr><td class="tb">Priya Mehta</td><td>₹1,00,00,000</td><td style="color:var(--gr);font-weight:600">₹18,50,000</td><td><div style="display:flex;align-items:center;gap:6px"><div class="pb" style="width:80px"><div class="pf gn" style="width:18%"></div></div><span>18%</span></div></td><td style="color:var(--gr)">₹42.5L pipeline</td><td><span class="bg gn">Good</span></td></tr>
+      <tr><td class="tb">Amit Joshi</td><td>₹80,00,000</td><td style="color:var(--gr);font-weight:600">₹7,36,000</td><td><div style="display:flex;align-items:center;gap:6px"><div class="pb" style="width:80px"><div class="pf yw" style="width:9%"></div></div><span>9%</span></div></td><td style="color:var(--yw)">₹18.4L pipeline</td><td><span class="bg yw">Needs Push</span></td></tr>
+      <tr><td class="tb">Vikas Shah</td><td>₹80,00,000</td><td style="color:var(--rd);font-weight:600">₹2,56,000</td><td><div style="display:flex;align-items:center;gap:6px"><div class="pb" style="width:80px"><div class="pf rd" style="width:3%"></div></div><span>3%</span></div></td><td style="color:var(--rd)">₹22.0L pipeline</td><td><span class="bg rd">Behind</span></td></tr>
+    </tbody></table>
+  </div>
+</div>
+<!-- SETTINGS -->
+<div id="page-settings" class="pg">
+  <div class="pgh"><div><div class="pgt">⚙️ Settings</div><div class="pgs">CRM configuration, team, pipeline stages & preferences</div></div><div class="pgha"><button class="btn bp" onclick="openM('m-user')">+ Add User</button></div></div>
+  <div class="stabs">
+    <div class="stab on" onclick="switchStab(this,'sb-team')">👥 Sales Team</div>
+    <div class="stab" onclick="switchStab(this,'sb-pipeline')">📌 Pipeline Stages</div>
+    <div class="stab" onclick="switchStab(this,'sb-territory')">🗺️ Territory</div>
+    <div class="stab" onclick="switchStab(this,'sb-notif')">🔔 Notifications</div>
+    <div class="stab" onclick="switchStab(this,'sb-general')">⚙️ General</div>
+  </div>
+  <div id="sb-team" class="spanel on">
+    <div class="cd">
+      <div class="cdh"><div class="cdt">Sales Team Members</div><button class="btn bp bsm" onclick="openM('m-user')">+ Add User</button></div>
+      <div class="cntcard"><div class="cntav" style="background:linear-gradient(135deg,#17469D,#7894E3)">NS</div><div style="flex:1"><div class="cntnm">Neil Shah</div><div class="cntrole">Sales Director · Full CRM Access</div><div class="cntco">📍 Palanpur · Territories: All States · Target: ₹1.2 Cr/month</div></div><div class="tactions"><span class="bg gn">Active</span><span class="bg bl">Director</span></div></div>
+      <div class="cntcard"><div class="cntav" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">PM</div><div style="flex:1"><div class="cntnm">Priya Mehta</div><div class="cntrole">Senior Sales Rep · Gujarat + Rajasthan</div><div class="cntco">📍 Ahmedabad · Focus: Solar Pumps & Motors · Target: ₹1 Cr/month</div></div><div class="tactions"><span class="bg gn">Active</span><span class="bg pu">Sr. Sales</span><button class="btn bo bsm">Edit</button></div></div>
+      <div class="cntcard"><div class="cntav" style="background:linear-gradient(135deg,#059669,#10b981)">AJ</div><div style="flex:1"><div class="cntnm">Amit Joshi</div><div class="cntrole">Sales Rep · Gujarat Territory</div><div class="cntco">📍 Mehsana · Focus: Submersible Pumps, Dealers · Target: ₹80L/month</div></div><div class="tactions"><span class="bg gn">Active</span><span class="bg gn">Sales Rep</span><button class="btn bo bsm">Edit</button></div></div>
+      <div class="cntcard" style="margin-bottom:0"><div class="cntav" style="background:linear-gradient(135deg,#d97706,#f59e0b)">VS</div><div style="flex:1"><div class="cntnm">Vikas Shah</div><div class="cntrole">Sales Rep · Rajasthan + Maharashtra</div><div class="cntco">📍 Palanpur · Focus: Pipes, Wires, Outstation · Target: ₹80L/month</div></div><div class="tactions"><span class="bg gn">Active</span><span class="bg yw">Sales Rep</span><button class="btn bo bsm">Edit</button></div></div>
+    </div>
+  </div>
+  <div id="sb-pipeline" class="spanel">
+    <div class="cd">
+      <div class="cdh"><div class="cdt">Pipeline Stage Configuration</div><button class="btn bp bsm">+ Add Stage</button></div>
+      <table><thead><tr><th>#</th><th>Stage Name</th><th>Color</th><th>Win Probability</th><th>Avg Days in Stage</th><th>Action Required</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="tb">🔵 New Lead</td><td><div style="width:14px;height:14px;border-radius:50%;background:#7894E3;display:inline-block"></div></td><td>5%</td><td>1-2 days</td><td>First contact within 24 hrs</td><td><span class="bg gn">Active</span></td></tr>
+        <tr><td>2</td><td class="tb">📞 Contacted</td><td><div style="width:14px;height:14px;border-radius:50%;background:var(--cy);display:inline-block"></div></td><td>15%</td><td>3-5 days</td><td>Understand requirement, schedule demo</td><td><span class="bg gn">Active</span></td></tr>
+        <tr><td>3</td><td class="tb">🎬 Demo Given</td><td><div style="width:14px;height:14px;border-radius:50%;background:var(--yw);display:inline-block"></div></td><td>35%</td><td>5-7 days</td><td>Send quote within 2 days of demo</td><td><span class="bg gn">Active</span></td></tr>
+        <tr><td>4</td><td class="tb">📄 Proposal Sent</td><td><div style="width:14px;height:14px;border-radius:50%;background:var(--or);display:inline-block"></div></td><td>55%</td><td>7-10 days</td><td>Follow-up within 3 days</td><td><span class="bg gn">Active</span></td></tr>
+        <tr><td>5</td><td class="tb">🤝 Negotiation</td><td><div style="width:14px;height:14px;border-radius:50%;background:var(--pu);display:inline-block"></div></td><td>75%</td><td>5-8 days</td><td>Close or escalate to Director</td><td><span class="bg gn">Active</span></td></tr>
+        <tr><td>6</td><td class="tb">🏆 Won</td><td><div style="width:14px;height:14px;border-radius:50%;background:var(--gr);display:inline-block"></div></td><td>100%</td><td>—</td><td>Hand off to ERP / Order</td><td><span class="bg gn">Active</span></td></tr>
+        <tr><td>7</td><td class="tb">❌ Lost</td><td><div style="width:14px;height:14px;border-radius:50%;background:var(--rd);display:inline-block"></div></td><td>0%</td><td>—</td><td>Log reason, revisit in 3 months</td><td><span class="bg gn">Active</span></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div id="sb-territory" class="spanel">
+    <div class="cd">
+      <div class="cdh"><div class="cdt">Territory Configuration</div></div>
+      <table><thead><tr><th>Territory</th><th>States</th><th>Sales Rep</th><th>Leads</th><th>Active Deals</th><th>May Revenue</th></tr></thead>
+      <tbody>
+        <tr><td class="tb">North Gujarat</td><td>Banaskantha, Patan, Mehsana</td><td>Amit Joshi</td><td>14</td><td>5</td><td style="color:var(--pl);font-weight:600">₹88.2L</td></tr>
+        <tr><td class="tb">South & Central Gujarat</td><td>Ahmedabad, Surat, Baroda, Gandhinagar</td><td>Priya Mehta</td><td>12</td><td>4</td><td style="color:var(--pl);font-weight:600">₹98.4L</td></tr>
+        <tr><td class="tb">Rajasthan + MP</td><td>Rajasthan, Madhya Pradesh</td><td>Vikas Shah</td><td>8</td><td>3</td><td style="color:var(--pl);font-weight:600">₹74.0L</td></tr>
+        <tr><td class="tb">Key / Strategic Accounts</td><td>All States — Large Deals</td><td>Neil Shah</td><td>4</td><td>2</td><td style="color:var(--pl);font-weight:600">₹1.24 Cr</td></tr>
+        <tr><td class="tb">Maharashtra + Others</td><td>Maharashtra, Gujarat (partial)</td><td>Vikas Shah</td><td>6</td><td>2</td><td style="color:var(--pl);font-weight:600">₹38.4L</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div id="sb-notif" class="spanel">
+    <div class="cd">
+      <div class="cdh"><div class="cdt">Notification Preferences</div><button class="btn bp bsm">Save</button></div>
+      <div class="srow"><div><div class="swlbl">New Lead Alert</div><div class="swsub">Notify sales rep when a new lead is assigned</div></div><label class="tgl"><input type="checkbox" class="tgli" checked><div class="tgltr"></div><span style="font-size:11px;color:var(--tx2)">ON</span></label></div>
+      <div class="srow"><div><div class="swlbl">Follow-up Due Reminder</div><div class="swsub">Alert 1 hour before a scheduled follow-up</div></div><label class="tgl"><input type="checkbox" class="tgli" checked><div class="tgltr"></div><span style="font-size:11px;color:var(--tx2)">ON</span></label></div>
+      <div class="srow"><div><div class="swlbl">Deal Won / Lost Notification</div><div class="swsub">Notify Director when any deal is marked Won or Lost</div></div><label class="tgl"><input type="checkbox" class="tgli" checked><div class="tgltr"></div><span style="font-size:11px;color:var(--tx2)">ON</span></label></div>
+      <div class="srow"><div><div class="swlbl">Overdue Follow-up Alert</div><div class="swsub">Daily digest of overdue follow-ups at 9 AM</div></div><label class="tgl"><input type="checkbox" class="tgli" checked><div class="tgltr"></div><span style="font-size:11px;color:var(--tx2)">ON</span></label></div>
+      <div class="srow"><div><div class="swlbl">Deal Stale Alert</div><div class="swsub">Alert if a deal has no activity for 7+ days</div></div><label class="tgl"><input type="checkbox" class="tgli" checked><div class="tgltr"></div><span style="font-size:11px;color:var(--tx2)">ON</span></label></div>
+      <div class="srow"><div><div class="swlbl">Weekly Sales Summary</div><div class="swsub">Summary email to Neil Shah every Monday 9 AM</div></div><label class="tgl"><input type="checkbox" class="tgli" checked><div class="tgltr"></div><span style="font-size:11px;color:var(--tx2)">ON</span></label></div>
+      <div class="srow"><div><div class="swlbl">WhatsApp Notifications</div><div class="swsub">Critical alerts on WhatsApp +91-90990 81917</div></div><label class="tgl"><input type="checkbox" class="tgli"><div class="tgltr"></div><span style="font-size:11px;color:var(--tx2)">OFF</span></label></div>
+    </div>
+  </div>
+  <div id="sb-general" class="spanel">
+    <div class="cd">
+      <div class="cdh"><div class="cdt">General CRM Settings</div><button class="btn bp bsm">Save</button></div>
+      <div class="fr"><div class="fg"><label class="fl">Company Name</label><input class="fi" value="Arihant Pumps Pvt. Ltd."></div><div class="fg"><label class="fl">Brand</label><input class="fi" value="AROMA"></div></div>
+      <div class="fr"><div class="fg"><label class="fl">CRM Admin</label><input class="fi" value="Neil Shah"></div><div class="fg"><label class="fl">Email</label><input class="fi" value="neil@aromapump.com"></div></div>
+      <div class="srow"><div><div class="swlbl">Auto-assign Leads by Territory</div><div class="swsub">Leads auto-assigned based on state/territory rules</div></div><label class="tgl"><input type="checkbox" class="tgli" checked><div class="tgltr"></div><span style="font-size:11px;color:var(--tx2)">ON</span></label></div>
+      <div class="srow"><div><div class="swlbl">Deal Inactivity Alert (7 days)</div><div class="swsub">Flag deals with no update for 7 days</div></div><label class="tgl"><input type="checkbox" class="tgli" checked><div class="tgltr"></div><span style="font-size:11px;color:var(--tx2)">ON</span></label></div>
+      <div class="srow"><div><div class="swlbl">Lost Reason Mandatory</div><div class="swsub">Force sales rep to select a loss reason before closing</div></div><label class="tgl"><input type="checkbox" class="tgli" checked><div class="tgltr"></div><span style="font-size:11px;color:var(--tx2)">ON</span></label></div>
+    </div>
+  </div>
+</div>
+
+</main></div></div>
+
+<!-- ═══ MODALS ═══ -->
+<!-- ADD LEAD -->
+<div class="mo" id="m-lead"><div class="mbox">
+  <div class="mtit">🎯 Add / Edit Lead <span class="mcl" onclick="closeM('m-lead')">×</span></div>
+  <div class="fsec">Contact Details</div>
+  <div class="fr"><div class="fg"><label class="fl">Contact Name</label><input class="fi" placeholder="e.g. Rajesh Patel"></div><div class="fg"><label class="fl">Phone</label><input class="fi" placeholder="98XXXXXXXX"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Email</label><input class="fi" placeholder="rajesh@company.com"></div><div class="fg"><label class="fl">Designation</label><input class="fi" placeholder="e.g. Owner / Manager"></div></div>
+  <div class="fsec">Company Details</div>
+  <div class="fr"><div class="fg"><label class="fl">Company Name</label><input class="fi" placeholder="e.g. Kisaan Agri Store"></div><div class="fg"><label class="fl">Company Type</label><select class="fi"><option>Dealer</option><option>Distributor</option><option>End Customer (Farm)</option><option>Government</option><option>Contractor</option></select></div></div>
+  <div class="fr"><div class="fg"><label class="fl">City</label><input class="fi" placeholder="e.g. Mehsana"></div><div class="fg"><label class="fl">State</label><select class="fi"><option>Gujarat</option><option>Rajasthan</option><option>Maharashtra</option><option>Madhya Pradesh</option><option>Other</option></select></div></div>
+  <div class="fsec">Lead Details</div>
+  <div class="fr"><div class="fg"><label class="fl">Product Interest</label><select class="fi"><option>Submersible Pump</option><option>Submersible Motor</option><option>Solar Pump System</option><option>uPVC Column Pipe</option><option>uPVC Casing Pipe</option><option>Winding Wire</option><option>PVC Cable</option><option>Open Well Pump</option><option>Multiple Products</option></select></div><div class="fg"><label class="fl">Estimated Quantity</label><input class="fi" placeholder="e.g. 200 pcs or 500 kg"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Estimated Value (₹)</label><input class="fi" type="number" placeholder="e.g. 480000"></div><div class="fg"><label class="fl">Lead Source</label><select class="fi"><option>Trade Fair / Exhibition</option><option>Referral / Dealer</option><option>Website Inquiry</option><option>Cold Call / Field</option><option>Social Media</option><option>Government Tender</option></select></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Pipeline Stage</label><select class="fi"><option>New Lead</option><option>Contacted</option><option>Demo Given</option><option>Proposal Sent</option><option>Negotiation</option></select></div><div class="fg"><label class="fl">Assign To</label><select class="fi"><option>Neil Shah</option><option>Priya Mehta</option><option>Amit Joshi</option><option>Vikas Shah</option></select></div></div>
+  <div class="fg"><label class="fl">Notes</label><input class="fi" placeholder="e.g. Wants bulk discount on 200+ units, interested in IS certified pumps"></div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-lead')">Cancel</button><button class="btn bp" onclick="closeM('m-lead')">💾 Save Lead</button></div>
+</div></div>
+
+<!-- ADD DEAL -->
+<div class="mo" id="m-deal"><div class="mbox">
+  <div class="mtit">📌 New Deal <span class="mcl" onclick="closeM('m-deal')">×</span></div>
+  <div class="fr"><div class="fg"><label class="fl">Deal Name</label><input class="fi" placeholder="e.g. Gujarat Irrigation — Solar 50 Sets"></div><div class="fg"><label class="fl">Linked Lead</label><input class="fi" placeholder="e.g. LD-2282"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Company</label><input class="fi" placeholder="e.g. Gujarat Irrigation Co."></div><div class="fg"><label class="fl">Deal Value (₹)</label><input class="fi" type="number" placeholder="e.g. 18500000"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Product</label><select class="fi"><option>Submersible Pump</option><option>Submersible Motor</option><option>Solar Pump System</option><option>uPVC Pipe</option><option>Winding Wire</option><option>Open Well Pump</option></select></div><div class="fg"><label class="fl">Quantity</label><input class="fi" placeholder="e.g. 50 sets"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Pipeline Stage</label><select class="fi"><option>New Lead</option><option>Contacted</option><option>Demo Given</option><option>Proposal Sent</option><option>Negotiation</option></select></div><div class="fg"><label class="fl">Expected Close Date</label><input class="fi" type="date"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Win Probability (%)</label><input class="fi" type="number" placeholder="e.g. 55"></div><div class="fg"><label class="fl">Assign To</label><select class="fi"><option>Neil Shah</option><option>Priya Mehta</option><option>Amit Joshi</option><option>Vikas Shah</option></select></div></div>
+  <div class="fg"><label class="fl">Notes</label><input class="fi" placeholder="e.g. Price sensitive, needs 30-day credit. IS 8034 certificate must."></div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-deal')">Cancel</button><button class="btn bp" onclick="closeM('m-deal')">💾 Save Deal</button></div>
+</div></div>
+
+<!-- LOG ACTIVITY -->
+<div class="mo" id="m-activity"><div class="mbox">
+  <div class="mtit">📅 Log Activity <span class="mcl" onclick="closeM('m-activity')">×</span></div>
+  <div class="fr"><div class="fg"><label class="fl">Activity Type</label><select class="fi"><option>📞 Call</option><option>🤝 Meeting</option><option>📧 Email</option><option>💬 WhatsApp</option><option>🎬 Demo</option><option>📝 Task / Note</option><option>🏭 Site Visit</option></select></div><div class="fg"><label class="fl">Lead / Contact</label><input class="fi" placeholder="e.g. Rajesh Patel / LD-2281"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Date & Time</label><input class="fi" type="datetime-local"></div><div class="fg"><label class="fl">Duration</label><select class="fi"><option>15 mins</option><option>30 mins</option><option>45 mins</option><option>1 hour</option><option>2 hours</option><option>Half day</option></select></div></div>
+  <div class="fg"><label class="fl">Description</label><input class="fi" placeholder="e.g. Discussed V4 1HP pricing — wants ₹4,500/unit for 200+ quantity"></div>
+  <div class="fr"><div class="fg"><label class="fl">Outcome</label><select class="fi"><option>Positive — Moving Forward</option><option>Quote to be Sent</option><option>Meeting Scheduled</option><option>Follow-up Needed</option><option>Not Interested</option><option>Call Back Later</option></select></div><div class="fg"><label class="fl">Next Action</label><input class="fi" placeholder="e.g. Send revised quote by 5 June"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Next Follow-up Date</label><input class="fi" type="date"></div><div class="fg"><label class="fl">Assigned To</label><select class="fi"><option>Neil Shah</option><option>Priya Mehta</option><option>Amit Joshi</option><option>Vikas Shah</option></select></div></div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-activity')">Cancel</button><button class="btn bp" onclick="closeM('m-activity')">💾 Save Activity</button></div>
+</div></div>
+
+<!-- SCHEDULE FOLLOW-UP -->
+<div class="mo" id="m-followup"><div class="mbox">
+  <div class="mtit">🔁 Schedule Follow-up <span class="mcl" onclick="closeM('m-followup')">×</span></div>
+  <div class="fr"><div class="fg"><label class="fl">Lead / Contact</label><input class="fi" placeholder="e.g. Rajesh Patel"></div><div class="fg"><label class="fl">Company</label><input class="fi" placeholder="e.g. Kisaan Agri Store"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Follow-up Type</label><select class="fi"><option>📞 Call</option><option>📧 Email</option><option>💬 WhatsApp</option><option>🤝 Meeting</option><option>📋 Send Quote</option></select></div><div class="fg"><label class="fl">Due Date & Time</label><input class="fi" type="datetime-local"></div></div>
+  <div class="fg"><label class="fl">Reminder Message / Notes</label><input class="fi" placeholder="e.g. Ask about decision on V4 1HP quote — 200 unit order pending"></div>
+  <div class="fr"><div class="fg"><label class="fl">Priority</label><select class="fi"><option>🔴 High</option><option>🟡 Medium</option><option>🔵 Low</option></select></div><div class="fg"><label class="fl">Assign To</label><select class="fi"><option>Neil Shah</option><option>Priya Mehta</option><option>Amit Joshi</option><option>Vikas Shah</option></select></div></div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-followup')">Cancel</button><button class="btn bp" onclick="closeM('m-followup')">💾 Schedule</button></div>
+</div></div>
+
+<!-- SEND EMAIL -->
+<div class="mo" id="m-email"><div class="mbox">
+  <div class="mtit">📧 Send Email <span class="mcl" onclick="closeM('m-email')">×</span></div>
+  <div class="fr"><div class="fg"><label class="fl">To (Lead / Contact)</label><input class="fi" placeholder="e.g. suresh@gujaratirrigation.in"></div><div class="fg"><label class="fl">CC</label><input class="fi" placeholder="Optional"></div></div>
+  <div class="fg"><label class="fl">Subject</label><input class="fi" placeholder="e.g. AROMA Solar Pump 3HP System — Proposal for Gujarat Irrigation Co."></div>
+  <div class="fg"><label class="fl">Template</label><select class="fi"><option>-- Select Template --</option><option>Product Introduction</option><option>Quotation Cover Letter</option><option>Follow-up (No Response)</option><option>Thank You (Post Meeting)</option><option>Deal Won — Order Confirmation</option></select></div>
+  <div class="fg"><label class="fl">Message Body</label><textarea class="fi" rows="5" placeholder="Dear Suresh Kumar,&#10;&#10;Thank you for your interest in AROMA Solar Pump Systems..."></textarea></div>
+  <div class="fg"><label class="fl">Attach Quote / Catalogue</label><select class="fi"><option>None</option><option>QT-441 — Solar Pump 3HP Quote</option><option>AROMA Product Catalogue 2025</option><option>IS Certification — Submersible Pumps</option></select></div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-email')">Cancel</button><button class="btn bp" onclick="closeM('m-email')">📧 Send Email</button></div>
+</div></div>
+
+<!-- WHATSAPP -->
+<div class="mo" id="m-whatsapp"><div class="mbox">
+  <div class="mtit">💬 Send WhatsApp <span class="mcl" onclick="closeM('m-whatsapp')">×</span></div>
+  <div class="fr"><div class="fg"><label class="fl">To (Contact)</label><input class="fi" placeholder="e.g. Rajesh Patel"></div><div class="fg"><label class="fl">Mobile</label><input class="fi" placeholder="98XXXXXXXX"></div></div>
+  <div class="fg"><label class="fl">Quick Template</label><select class="fi"><option>-- Select --</option><option>Quote Sharing — "Quote attached, please review"</option><option>Follow-up — "Kya update hai order ke baare mein?"</option><option>Meeting Confirmation</option><option>Payment Reminder</option><option>Product Brochure Share</option></select></div>
+  <div class="fg"><label class="fl">Message</label><textarea class="fi" rows="4" placeholder="Namaste Rajesh Bhai, AROMA V4 1HP ki quote share kar raha hun. Please review karo or batao..."></textarea></div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-whatsapp')">Cancel</button><button class="btn bp" onclick="closeM('m-whatsapp')">💬 Send WhatsApp</button></div>
+</div></div>
+
+<!-- CREATE QUOTE -->
+<div class="mo" id="m-quote"><div class="mbox">
+  <div class="mtit">📋 Create Quote / Proposal <span class="mcl" onclick="closeM('m-quote')">×</span></div>
+  <div class="fsec">Customer Details</div>
+  <div class="fr"><div class="fg"><label class="fl">Customer Name</label><input class="fi" placeholder="e.g. Gujarat Irrigation Co."></div><div class="fg"><label class="fl">Contact Person</label><input class="fi" placeholder="e.g. Suresh Kumar"></div></div>
+  <div class="fsec">Product Details</div>
+  <div class="fr"><div class="fg"><label class="fl">Product Category</label><select class="fi"><option>Submersible Pump</option><option>Submersible Motor</option><option>Solar Pump System</option><option>uPVC Column Pipe</option><option>uPVC Casing Pipe</option><option>Winding Wire</option><option>Open Well Pump</option></select></div><div class="fg"><label class="fl">Model</label><input class="fi" placeholder="e.g. V4 1HP or 3HP MPPT Solar"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Quantity</label><input class="fi" placeholder="e.g. 200 pcs"></div><div class="fg"><label class="fl">Unit Rate (₹)</label><input class="fi" type="number" placeholder="e.g. 4800"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Discount (%)</label><input class="fi" type="number" placeholder="e.g. 5"></div><div class="fg"><label class="fl">Valid Till</label><input class="fi" type="date"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Payment Terms</label><select class="fi"><option>100% Advance</option><option>50% Advance, 50% on Delivery</option><option>30 Days Credit</option><option>60 Days Credit</option></select></div><div class="fg"><label class="fl">Delivery Timeline</label><input class="fi" placeholder="e.g. 7-10 working days"></div></div>
+  <div class="fg"><label class="fl">Special Notes</label><input class="fi" placeholder="e.g. IS 8034 certified, 1-year warranty, free delivery for 200+ pcs"></div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-quote')">Cancel</button><button class="btn bo" onclick="closeM('m-quote')">👁️ Preview</button><button class="btn bp" onclick="closeM('m-quote')">💾 Generate & Send</button></div>
+</div></div>
+
+<!-- ADD CONTACT -->
+<div class="mo" id="m-contact"><div class="mbox">
+  <div class="mtit">👤 Add Contact <span class="mcl" onclick="closeM('m-contact')">×</span></div>
+  <div class="fr"><div class="fg"><label class="fl">Full Name</label><input class="fi" placeholder="e.g. Rajesh Patel"></div><div class="fg"><label class="fl">Designation</label><input class="fi" placeholder="e.g. Owner / Purchase Manager"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Phone</label><input class="fi" placeholder="98XXXXXXXX"></div><div class="fg"><label class="fl">Email</label><input class="fi" placeholder="rajesh@company.com"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Company</label><input class="fi" placeholder="e.g. Kisaan Agri Store"></div><div class="fg"><label class="fl">State</label><select class="fi"><option>Gujarat</option><option>Rajasthan</option><option>Maharashtra</option><option>Madhya Pradesh</option><option>Other</option></select></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Contact Type</label><select class="fi"><option>Dealer</option><option>Distributor</option><option>End Customer</option><option>Government Official</option><option>Contractor</option></select></div><div class="fg"><label class="fl">Preferred Contact</label><select class="fi"><option>Phone Call</option><option>WhatsApp</option><option>Email</option></select></div></div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-contact')">Cancel</button><button class="btn bp" onclick="closeM('m-contact')">💾 Add Contact</button></div>
+</div></div>
+
+<!-- ADD ACCOUNT -->
+<div class="mo" id="m-account"><div class="mbox">
+  <div class="mtit">🏢 Add / Edit Company <span class="mcl" onclick="closeM('m-account')">×</span></div>
+  <div class="fr"><div class="fg"><label class="fl">Company Name</label><input class="fi" placeholder="e.g. Gujarat Irrigation Co."></div><div class="fg"><label class="fl">Type</label><select class="fi"><option>Dealer</option><option>Distributor</option><option>End Customer</option><option>Government</option><option>Contractor</option></select></div></div>
+  <div class="fr"><div class="fg"><label class="fl">City</label><input class="fi" placeholder="e.g. Ahmedabad"></div><div class="fg"><label class="fl">State</label><select class="fi"><option>Gujarat</option><option>Rajasthan</option><option>Maharashtra</option><option>M.P.</option><option>Other</option></select></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Annual Potential (₹)</label><input class="fi" placeholder="e.g. 5000000"></div><div class="fg"><label class="fl">Products Interested</label><input class="fi" placeholder="e.g. Pumps, Solar, Pipes"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Key Contact</label><input class="fi" placeholder="e.g. Suresh Kumar"></div><div class="fg"><label class="fl">Assigned Rep</label><select class="fi"><option>Neil Shah</option><option>Priya Mehta</option><option>Amit Joshi</option><option>Vikas Shah</option></select></div></div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-account')">Cancel</button><button class="btn bp" onclick="closeM('m-account')">💾 Save Account</button></div>
+</div></div>
+
+<!-- ADD USER -->
+<div class="mo" id="m-user"><div class="mbox">
+  <div class="mtit">👥 Add CRM User <span class="mcl" onclick="closeM('m-user')">×</span></div>
+  <div class="fr"><div class="fg"><label class="fl">Full Name</label><input class="fi" placeholder="e.g. Ravi Patel"></div><div class="fg"><label class="fl">Username</label><input class="fi" placeholder="e.g. ravi.patel"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Role</label><select class="fi"><option>Sales Director</option><option>Senior Sales Rep</option><option>Sales Rep</option><option>View Only</option></select></div><div class="fg"><label class="fl">Territory</label><select class="fi"><option>North Gujarat</option><option>South & Central Gujarat</option><option>Rajasthan + MP</option><option>Maharashtra</option><option>All Territories</option></select></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Email</label><input class="fi" placeholder="ravi@aromapump.com"></div><div class="fg"><label class="fl">Phone</label><input class="fi" placeholder="98XXXXXXXX"></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Monthly Target (₹)</label><input class="fi" type="number" placeholder="e.g. 8000000"></div><div class="fg"><label class="fl">Access Level</label><select class="fi"><option>Own leads only</option><option>Team leads (read)</option><option>All leads (full)</option></select></div></div>
+  <div style="padding:9px;background:rgba(23,70,157,.1);border:1px solid rgba(23,70,157,.3);border-radius:7px;font-size:11px;color:var(--pl)">🔐 Login credentials sent via SMS on account creation</div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-user')">Cancel</button><button class="btn bp" onclick="closeM('m-user')">💾 Create User</button></div>
+</div></div>
+
+<!-- SET TARGET -->
+<div class="mo" id="m-target"><div class="mbox">
+  <div class="mtit">🏆 Set Sales Target <span class="mcl" onclick="closeM('m-target')">×</span></div>
+  <div class="fr"><div class="fg"><label class="fl">Sales Rep</label><select class="fi"><option>Neil Shah</option><option>Priya Mehta</option><option>Amit Joshi</option><option>Vikas Shah</option><option>All Team</option></select></div><div class="fg"><label class="fl">Period</label><select class="fi"><option>June 2025</option><option>Q2 2025 (Apr–Jun)</option><option>FY 2025-26</option></select></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Revenue Target (₹)</label><input class="fi" type="number" placeholder="e.g. 10000000"></div><div class="fg"><label class="fl">Deal Count Target</label><input class="fi" type="number" placeholder="e.g. 15 deals"></div></div>
+  <div class="fg"><label class="fl">Focus Product Category</label><select class="fi"><option>All Products</option><option>Submersible Pumps</option><option>Solar Pump Systems</option><option>uPVC Pipes</option><option>Winding Wires</option></select></div>
+  <div class="mac"><button class="btn bo" onclick="closeM('m-target')">Cancel</button><button class="btn bp" onclick="closeM('m-target')">💾 Set Target</button></div>
+</div></div>
+
+<script>
+function doLogin(){document.getElementById('ls').style.display='none';document.getElementById('app').style.display='block';}
+function doLogout(){document.getElementById('app').style.display='none';document.getElementById('ls').style.display='flex';}
+function updateClock(){const n=new Date();document.getElementById('clock').textContent=n.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+setInterval(updateClock,1000);updateClock();
+function showPage(id,el){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  const p=document.getElementById('page-'+id);if(p)p.classList.add('on');
+  if(el){document.querySelectorAll('.si').forEach(s=>s.classList.remove('on'));el.classList.add('on');}
+}
+function openM(id){document.getElementById(id).classList.add('on');}
+function closeM(id){document.getElementById(id).classList.remove('on');}
+document.addEventListener('click',function(e){if(e.target.classList.contains('mo'))e.target.classList.remove('on');});
+function switchStab(el,pid){
+  document.querySelectorAll('.stab').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.spanel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');document.getElementById(pid).classList.add('on');
+}
+</script>
+</body></html>
